@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <title>Historic Earth</title>
+  
+</head>
+<body>
+    <div id="page-container">
+      <main id="content-wrap">
+        <!-- everything from header to #upload-container goes here -->
+  
+
+  <header>
+    <h1>Historic Earth</h1>
+
+    <nav>
+      <div class="dropdown">
+        <button class="dropdown-button">Menu</button>
+        <div class="dropdown-content" id="menu-content">
+          <a href="login.html" id="login-link">Login</a>
+          <a href="#about">About</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div id="search-bar">
+      <input id="search-input" type="text" placeholder="Search for a city..." />
+      <button id="search-button">Search</button>
+    </div>
+  </header>
+
+  <!-- ✅ User Status Display -->
+  <div id="user-status" style="display: none;">
+    <span id="user-username"></span>
+
+  
+  </div>
+
+  <div class="viewer-container" style="max-width: 100vw; overflow-x: hidden;">
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+  
+    <div id="photo-viewer">
+      <img id="photo-preview" src="" alt="Select a location to view photo" />
+    </div>
+  </div>
+  
+  <!-- ✅ Photo Metadata (below map & image, not inside) -->
+  <div id="photo-metadata" style="display: none; margin: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <p><strong>Name:</strong> <span id="photo-name-display">None</span></p>
+        <p><strong>Year:</strong> <span id="photo-year-display">Unknown</span></p>
+        <p><strong>Uploader:</strong> <span id="photo-uploader-display">Unknown</span></p>
+      </div>
+  
+      <!-- ✅ Place the moderator buttons inside this wrapper cleanly -->
+      <div id="moderator-controls" style="display: flex; gap: 10px;"></div>
+    </div>
+  
+    <p style="margin-top: 10px;">
+      <strong>Description:</strong>
+      <span id="photo-description-display">None</span>
+    </p>
+  </div>
+
+  <div class="controls">
+    <button id="toggle-upload-button" disabled>Enable Upload Mode</button> <!-- Button disabled by default -->
+
+
+    <div class="legend">
+      <label class="legend-item">
+        <input type="checkbox" id="filterComplete" checked>
+        <div class="legend-color orange"></div>
+        <span>Complete Information</span>
+      </label>
+      <label class="legend-item">
+        <input type="checkbox" id="filterMissingYear" checked>
+        <div class="legend-color yellow"></div>
+        <span>Missing Year</span>
+      </label>
+      <label class="legend-item">
+        <input type="checkbox" id="filterApproxLocation" checked>
+        <div class="legend-color darkblue"></div>
+        <span>Approximate/Unknown Location</span>
+      </label>
+      <label class="legend-item">
+        <input type="checkbox" id="filterMultipleMissing" checked>
+        <div class="legend-color darkgreen"></div>
+        <span>Multiple Missing Data</span>
+      </label>
+      <label class="legend-item">
+        <input type="checkbox" id="filterSelectedLocation" checked>
+        <div class="legend-color red"></div>
+        <span>Selected Location for Upload</span>
+      </label>
+    </div>
+  </div>
+
+  <div id="upload-container" style="display: none;">
+    <form id="upload-form">
+      <h2>Upload Photo</h2>
+      <input type="file" id="photo-input" required />
+      <input type="text" id="photo-name" placeholder="Photo Name" required />
+      <!-- 🔹 Year Mode Toggle -->
+<label>
+  <input type="radio" name="year-mode" value="exact" checked> Exact Date
+</label>
+<label>
+  <input type="radio" name="year-mode" value="range"> Year Range
+</label>
+
+<!-- 🔹 Exact Date Selection -->
+<div id="exact-date-fields">
+  <label for="photo-year">Year (required):</label>
+  <input type="number" id="photo-year" placeholder="Year" min="1000" max="2000" />
+
+  <label for="photo-month">Month (optional):</label>
+  <select id="photo-month">
+    <option value="">--</option>
+  </select>
+
+  <label for="photo-day">Day (optional):</label>
+  <select id="photo-day">
+    <option value="">--</option>
+  </select>
+</div>
+
+        <!-- 🔹 Year Range Selection -->
+        <div id="year-range-fields" style="display: none;">
+          <input type="number" id="photo-start-year" placeholder="Start Year" min="1000" max="2000" />
+          <input type="number" id="photo-end-year" placeholder="End Year" min="1000" max="2000" />
+        </div>
+    
+        <textarea id="photo-description" placeholder="Description"></textarea>
+    
+        <label>
+          <input type="checkbox" id="exact-location-checkbox" checked>
+          This is the exact location
+        </label>
+    
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+    
+  
+
+  <!-- ✅ Google Maps API Key Included -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGQJ2rO0PfjrvjgbHWOR-jtkYEB0OYNt0&libraries=places"></script>
+
+  <script src="script.js"></script>
+  
+
+  <script>
+    async function checkLoginStatus() {
+      try {
+        const response = await fetch("/api/auth-status", {
+          credentials: "include"
+        });
+  
+        const data = await response.json();
+  
+        const menuContent = document.getElementById("menu-content");
+        const usernameDisplay = document.getElementById("user-username");
+        const userStatus = document.getElementById("user-status");
+        const uploadButton = document.getElementById("toggle-upload-button");
+  
+        if (!menuContent || !usernameDisplay || !userStatus || !uploadButton) {
+          console.warn("⚠️ Missing DOM elements for login display.");
+          return;
+        }
+  
+        if (data.loggedIn) {
+  usernameDisplay.textContent = data.user.username;
+  userStatus.style.display = "block";
+  uploadButton.disabled = false;
+  uploadButton.style.opacity = "1";
+
+  // ✅ Store user info
+  localStorage.setItem("username", data.user.username);
+  localStorage.setItem("isModerator", data.user.isModerator ? "true" : "false");
+
+
+
+
+  // ✅ Clear everything first
+  menuContent.innerHTML = "";
+
+  // ✅ Rebuild only the items you want
+  const aboutLink = document.createElement("a");
+  aboutLink.href = "#about";
+  aboutLink.textContent = "About";
+
+  const logoutLink = document.createElement("a");
+  logoutLink.href = "#";
+  logoutLink.id = "logout";
+  logoutLink.textContent = "Logout";
+
+  menuContent.appendChild(aboutLink);
+  menuContent.appendChild(logoutLink);
+
+  uploadButton.disabled = false;
+  uploadButton.style.opacity = "1";
+
+  
+  document.getElementById("logout").addEventListener("click", async () => {
+  await fetch("/api/logout", {
+    method: "POST",
+    credentials: "include"
+  });
+  window.location.reload();
+});
+
+} else {
+  uploadButton.disabled = true;
+  uploadButton.style.opacity = "0.5";
+}
+      } // ✅ closes try block
+      catch (error) {
+        console.error("❌ Error checking login status:", error);
+      }
+    }
+  
+  </script>
+
+<script src="script.js" defer></script>
+
+
+</main> <!-- ✅ close content-wrap -->
+
+<footer id="site-footer">
+  © 2025 Historic Earth. All rights reserved.
+</footer>
+
+</div> <!-- closes #page-container -->
+
+<script>
+  window.addEventListener("load", () => {
+    if (typeof initMap === "function") {
+      initMap();
+    }
+  });
+</script>
+
+
+</body>
+</html>

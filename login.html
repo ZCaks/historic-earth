@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Historic Earth</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LdTRM4qAAAAAFKgidHhs9BBAa3_vDfpHx2iohqi" async defer></script>
+
+
+  
+</head>
+<body>
+  <header>
+    <h1>Login to Historic Earth</h1>
+    <nav>
+      <a href="index.html">← Back to Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ✅ User Status Display -->
+    <div id="user-status" style="display: none;">
+      <h2>Welcome, <span id="user-username"></span>!</h2>
+      <button id="logout-button">Logout</button>
+    </div>
+
+    <!-- ✅ Login Form -->
+    <form id="login-form">
+      <h2>Login</h2>
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-password" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+    </form>
+
+    <!-- ✅ Forgot Password Section (Hidden by Default) -->
+    <div id="forgot-password-container" style="display: none;">
+      <h2>Reset Password</h2>
+      <p>Enter your email, and we will send you a reset link.</p>
+      <input type="email" id="forgot-password-email" placeholder="Enter your email" required>
+      <button id="forgot-password-submit">Send Reset Link</button>
+      <p><a href="#" id="back-to-login">← Back to Login</a></p>
+    </div>
+
+    <hr>
+
+    <!-- ✅ Sign-Up Form -->
+    <form id="signup-form">
+      <h2>Sign Up</h2>
+      <input type="text" id="signup-username" placeholder="Username" required>
+      <input type="email" id="signup-email" placeholder="Email" required>
+      <input type="password" id="signup-password" placeholder="Password" required>
+      <input type="password" id="signup-password-repeat" placeholder="Repeat Password" required>
+      
+      <label>
+        <input type="checkbox" id="terms-checkbox" required>
+        I have read and agree to the <a href="terms.html">Terms of Agreement</a>.
+      </label>
+      
+      <input type="hidden" id="recaptcha-token" name="g-recaptcha-response">
+      <button type="submit">Sign Up</button>
+    </form>
+  </main>
+
+  <!-- ✅ Include main JS -->
+  <script src="script.js" defer></script>
+</body>
+</html>

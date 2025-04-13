@@ -1,0 +1,29 @@
+# Sensitive configs
+.env
+.env.local
+.env.production
+keys.env
+service-account-key.json
+
+# Node modules and build
+node_modules/
+dist/
+build/
+.cache/
+
+# OS / IDE junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Vercel
+.vercel/
+
+# Uploads (optional – if you're not meant to push them)
+uploads/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
