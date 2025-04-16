@@ -367,7 +367,7 @@ function setupAuthentication() {
 
       if (typeof grecaptcha !== "undefined" && grecaptcha.enterprise) {
         grecaptcha.enterprise.ready(() => {
-          grecaptcha.enterprise.execute("6LdTRM4qAAAAAFKgidHhs9BBAa3_vDfpHx2iohqi", { action: "login" })
+          grecaptcha.enterprise.execute("6LeAPxcrAAAAAGzen-KVMpVjbEKaKnfNSLEyqdQn", { action: "login" })
             .then(async (token) => {
               try {
                 const response = await fetch("/api/login", {
@@ -429,7 +429,7 @@ function setupAuthentication() {
 
       if (typeof grecaptcha !== "undefined" && grecaptcha.enterprise) {
         grecaptcha.enterprise.ready(() => {
-          grecaptcha.enterprise.execute("6LdTRM4qAAAAAFKgidHhs9BBAa3_vDfpHx2iohqi", { action: "signup" })
+          grecaptcha.enterprise.execute("6LeAPxcrAAAAAGzen-KVMpVjbEKaKnfNSLEyqdQn", { action: "signup" })
             .then(async (recaptchaToken) => {
               try {
                 const response = await fetch("/api/signup", {

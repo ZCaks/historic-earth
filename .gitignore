@@ -27,3 +27,15 @@ uploads/
 *.log
 npm-debug.log*
 yarn-debug.log*
+
+# Optional backup files
+*.bak
+*.tmp
+
+# Local environment
+.env.development
+.env.test
+
+# Mac junk
+.Spotlight-V100
+.Trashes
