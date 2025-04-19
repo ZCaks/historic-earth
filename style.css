@@ -407,8 +407,15 @@ h1 {
   }
 
   /* ✅ Reset styling for Google Maps internal elements */
-.gm-style, 
-.gm-control-active, 
-.gm-fullscreen-control {
-  all: initial !important;
-}
+  .gm-style img,
+  .gm-style button,
+  .gm-style div {
+    all: unset;
+    box-sizing: content-box;
+  }
+  
+
+  .gm-style .gm-center-marker {
+    display: none !important;
+  }
+  
