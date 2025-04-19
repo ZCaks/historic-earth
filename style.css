@@ -1,7 +1,9 @@
-* {
+/* Global layout styles (apply to your site, not Google Maps) */
+body, html, #page-container, #content-wrap, #site-footer, header, nav, main, footer, .viewer-container, .controls, .legend {
   box-sizing: border-box;
   max-width: 100%;
 }
+
 
 .title-earth {
   font-family: 'Arial', sans-serif;
@@ -387,3 +389,10 @@ h1 {
     }
   
   }
+
+  /* ✅ Reset styling for Google Maps internal elements */
+.gm-style, 
+.gm-control-active, 
+.gm-fullscreen-control {
+  all: initial !important;
+}
