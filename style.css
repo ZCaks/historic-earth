@@ -62,15 +62,15 @@ html, body {
   background-color: transparent;
 }
 
-  header,
-  .legend,
-  .dropdown-content,
-  #photo-viewer,
-  #photo-metadata {
-    background-color: #1e1e1e;
-    color: #f0f0f0;
-    border-color: #333;
-  }
+header,
+.legend,
+.dropdown-content,
+#photo-viewer,
+#photo-metadata {
+  background-color: #fff;
+  color: #000;
+  border-color: #ccc;
+}
 
   input, select, textarea {
     background-color: #2a2a2a !important;
@@ -308,6 +308,16 @@ h1 {
   body, html {
     background-color: #121212 !important;
     color: #e0e0e0 !important;
+  }
+
+  header,
+  .legend,
+  .dropdown-content,
+  #photo-viewer,
+  #photo-metadata {
+    background-color: #1e1e1e !important;
+    color: #f0f0f0 !important;
+    border-color: #333 !important;
   }
 
   #site-footer {
