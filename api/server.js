@@ -164,7 +164,7 @@ app.post("/api/verify-recaptcha", async (req, res) => {
 // ✅ DELETE photo
 app.delete("/api/photo/:filename", (req, res) => {
   if (!req.session?.user?.isModerator) {
-    return res.status(403).json({ error: "Not authorized" });
+    return res.status(403).json({ error: "Only moderators can edit or delete content" });
   }
 
   const filename = req.params.filename;
@@ -180,7 +180,7 @@ app.delete("/api/photo/:filename", (req, res) => {
 
 app.put("/api/photo/:filename", async (req, res) => {
   if (!req.session?.user?.isModerator) {
-    return res.status(403).json({ error: "Not authorized" });
+    return res.status(403).json({ error: "Only moderators can edit or delete content" });
   }
 
   const { filename } = req.params;
