@@ -496,20 +496,54 @@ function toggleUploadMode() {
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded! Initializing scripts...");
-  
-  // Initialize Google Maps only if the map container exists
+
+  // 🔹 Year Mode Switching for Upload Form
+  document.querySelectorAll('input[name="year-mode"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      const selected = document.querySelector('input[name="year-mode"]:checked').value;
+
+      document.getElementById("exact-date-fields").style.display = selected === "exact" ? "block" : "none";
+      document.getElementById("year-range-fields").style.display = selected === "range" ? "block" : "none";
+    });
+  });
+
+  // 🔹 Populate month/day dropdowns
+  const daySelect = document.getElementById("photo-day");
+  const monthSelect = document.getElementById("photo-month");
+
+  if (daySelect && monthSelect) {
+    for (let i = 1; i <= 31; i++) {
+      const option = document.createElement("option");
+      option.value = i.toString().padStart(2, "0");
+      option.text = i;
+      daySelect.appendChild(option);
+    }
+
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    months.forEach((month, index) => {
+      const option = document.createElement("option");
+      option.value = (index + 1).toString().padStart(2, "0");
+      option.text = month;
+      monthSelect.appendChild(option);
+    });
+  }
+
+  // 🔹 Map Initialization
   if (document.getElementById("map")) {
     initMap();
   }
 
-  // Initialize authentication if login/signup forms exist
+  // 🔹 Auth Setup
   if (document.getElementById("login-form") || document.getElementById("signup-form")) {
     setupAuthentication();
   }
 
-  // Check user login status
   checkLoginStatus();
 });
+
 
 function selectUploadLocation(latLng) {
   if (tempMarker) {
@@ -786,29 +820,5 @@ function cancelPhotoEdit() {
   }
   hidePhotoViewer();
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  // ✅ Populate Day Dropdown
-  const daySelect = document.getElementById("photo-day");
-  for (let i = 1; i <= 31; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.text = i;
-    daySelect.appendChild(option);
-  }
-
-  // ✅ Populate Month Dropdown
-  const monthSelect = document.getElementById("photo-month");
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  months.forEach((month, index) => {
-    const option = document.createElement("option");
-    option.value = (index + 1).toString().padStart(2, "0"); // 👈 "01", "02"...
-    option.text = month;
-    monthSelect.appendChild(option);
-  });
-});
 
 window.initMap = initMap;
