@@ -3,22 +3,19 @@
   max-width: 100%;
 }
 
-/* Fonts (import from Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=UnifrakturCook:wght@700&display=swap');
-
-/* Title styles */
-.title-earth {
-  font-family: 'Roboto', sans-serif;
-  color: #299c6a; /* Adjust to match your green shade */
-  font-weight: 500;
-}
-
-.title-then {
-  font-family: 'UnifrakturCook', cursive;
-  color: #666666; /* Gray tone to match */
+.earth {
+  font-family: 'Arial', sans-serif;
   font-weight: 700;
-  margin-left: 2px;
+  color: #339966; /* adjust as needed */
 }
+
+.then {
+  font-family: 'UnifrakturCook', cursive;
+  color: #444;
+  font-size: 1em; /* you can adjust this if you want it to match Earth */
+  letter-spacing: -1px;
+}
+
 
 
 .gm-style {
