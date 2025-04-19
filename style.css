@@ -3,18 +3,22 @@
   max-width: 100%;
 }
 
-.earth {
+.title-earth {
   font-family: 'Arial', sans-serif;
   font-weight: 700;
-  color: #339966; /* adjust as needed */
+  font-size: 44px;
+  color: #339966;
 }
 
-.then {
-  font-family: 'UnifrakturCook', cursive;
+.title-then {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 44px;
+  font-weight: normal;
   color: #444;
-  font-size: 1em; /* you can adjust this if you want it to match Earth */
   letter-spacing: -1px;
+  margin-left: 5px;
 }
+
 
 
 
