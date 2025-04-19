@@ -410,3 +410,9 @@ h1 {
     display: none !important;
   }
   
+  #map,
+#map-container {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
