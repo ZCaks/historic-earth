@@ -3,6 +3,24 @@
   max-width: 100%;
 }
 
+/* Fonts (import from Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=UnifrakturCook:wght@700&display=swap');
+
+/* Title styles */
+.title-earth {
+  font-family: 'Roboto', sans-serif;
+  color: #299c6a; /* Adjust to match your green shade */
+  font-weight: 500;
+}
+
+.title-then {
+  font-family: 'UnifrakturCook', cursive;
+  color: #666666; /* Gray tone to match */
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+
 .gm-style {
   overflow: hidden !important;
 }
