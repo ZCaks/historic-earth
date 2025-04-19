@@ -81,17 +81,19 @@ header,
   button,
   .dropdown-button,
   #search-button {
-    background-color: #333 !important;
-    color: white !important;
+    background-color: #eee;
+    color: black;
+    border: 1px solid #ccc;
   }
-
-   .dropdown-content a {
-    color: white !important;
+  
+  .dropdown-content a {
+    color: black;
   }
-
+  
   .dropdown-content a:hover {
-    background-color: #333 !important;
+    background-color: #f1f1f1;
   }
+  
 
   #map {
     border: 1px solid #333;
