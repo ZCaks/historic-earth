@@ -5,7 +5,7 @@
     { "src": "script.js", "use": "@vercel/static" },
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "login.html", "use": "@vercel/static" },
-    { "src": "terms.html", "use": "@vercel/static" },      
+    { "src": "terms.html", "use": "@vercel/static" },
     { "src": "style.css", "use": "@vercel/static" },
     { "src": "about.html", "use": "@vercel/static" },
     { "src": "verify-email.html", "use": "@vercel/static" }
@@ -15,17 +15,10 @@
     { "src": "/script.js", "dest": "/script.js" },
     { "src": "/style.css", "dest": "/style.css" },
     { "src": "/login.html", "dest": "/login.html" },
-    { "src": "/terms.html", "dest": "/terms.html" },          
+    { "src": "/terms.html", "dest": "/terms.html" },
     { "src": "/index.html", "dest": "/index.html" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/about.html", "dest": "/about.html" },
     { "src": "/verify-email.html", "dest": "/verify-email.html" }
-  ],
-  "env": {
-    "MONGO_URI": "@MONGO_URI",
-    "GOOGLE_MAPS_API_KEY": "@GOOGLE_MAPS_API_KEY",
-    "SESSION_SECRET": "@SESSION_SECRET",
-    "RECAPTCHA_SITE_KEY": "@RECAPTCHA_SITE_KEY",
-    "RECAPTCHA_API_KEY": "@RECAPTCHA_API_KEY"
-  }
+  ]
 }
