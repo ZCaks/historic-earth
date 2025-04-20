@@ -153,7 +153,7 @@ console.log("📧 Resend response:", response);
 
 
 
-    res.status(201).json({ message: "Signup successful!" });
+    res.status(201).json({ message: "Signup successful! Please check your email to verify your account." });
 
   } catch (error) {
     console.error("Signup Error:", error);
