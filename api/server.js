@@ -25,15 +25,6 @@ connectDB(); // Call it early — NOT inside route handlers
 // ✅ Load environment variables
 require("dotenv").config();
 
-// ✅ Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 60000
-})
-  .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
-
 app.use(express.json());
 app.use(cors({
   origin: ["https://earththen.net", "https://www.earththen.net"],

@@ -15,7 +15,8 @@ async function connectDB() {
   try {
     await mongoose.connect(uri, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 60000 // ✅ Important for Vercel cold starts
     });
     isConnected = true;
     console.log("✅ MongoDB connected.");
