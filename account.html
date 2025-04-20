@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Account - Earththen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Your Account</h1>
+    <nav>
+      <a href="index.html">← Back to Home</a>
+    </nav>
+  </header>
+
+  <main class="account-container">
+    <section id="profile-section">
+      <h2>Profile Information</h2>
+      <div id="profile-pic-container">
+        <img id="profile-pic-preview" src="" alt="Profile Picture" />
+        <input type="file" id="profile-pic-input" accept="image/*" />
+        <button id="upload-pic-btn">Upload Profile Picture</button>
+      </div>
+      <label>
+        Username:
+        <input type="text" id="account-username" />
+      </label>
+      <button id="save-profile-btn">Save Profile</button>
+    </section>
+
+    <hr>
+
+    <section id="password-section">
+      <h2>Change Password</h2>
+      <input type="password" id="current-password" placeholder="Current Password" />
+      <input type="password" id="new-password" placeholder="New Password" />
+      <input type="password" id="repeat-new-password" placeholder="Repeat New Password" />
+      <button id="change-password-btn">Change Password</button>
+    </section>
+
+    <hr>
+
+    <section id="posts-section">
+      <h2>Your Uploaded Photos</h2>
+      <div id="user-photos-container">
+        <!-- Photos will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="delete-section">
+      <h2>Delete Account</h2>
+      <p>This action is irreversible. All your photos and data will be deleted.</p>
+      <button id="delete-account-btn" style="background-color: crimson; color: white;">
+        Delete My Account
+      </button>
+    </section>
+  </main>
+
+  <footer id="site-footer">
+    © 2025 Earththen. All rights reserved.
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

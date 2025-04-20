@@ -504,5 +504,158 @@ app.get("/api/verify-email", async (req, res) => {
   }
 });
 
+// ✅ Update profile username
+app.put("/api/update-profile", async (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
+
+  const { username } = req.body;
+  if (!username) return res.status(400).json({ error: "Username required." });
+
+  try {
+    const existing = await User.findOne({ username });
+    if (existing && existing.email !== req.session.user.email) {
+      return res.status(400).json({ error: "Username already taken." });
+    }
+
+    const updated = await User.findOneAndUpdate(
+      { email: req.session.user.email },
+      { username },
+      { new: true }
+    );
+
+    req.session.user.username = updated.username;
+    res.json({ message: "Username updated." });
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).json({ error: "Update failed." });
+  }
+});
+
+// ✅ Change password
+app.put("/api/change-password", async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
+
+  try {
+    const user = await User.findOne({ email: req.session.user.email });
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) return res.status(401).json({ error: "Incorrect current password." });
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+    await user.save();
+
+    res.json({ message: "Password updated." });
+  } catch (err) {
+    console.error("Password update error:", err);
+    res.status(500).json({ error: "Error changing password." });
+  }
+});
+
+// ✅ Upload profile picture
+app.post("/api/upload-profile-pic", upload.single("profilePic"), async (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
+  if (!req.file) return res.status(400).json({ error: "No file uploaded." });
+
+  try {
+    const filename = `profilepics/${Date.now()}-${req.file.originalname}`;
+    const blob = bucket.file(filename);
+
+    const stream = blob.createWriteStream({
+      metadata: { contentType: req.file.mimetype }
+    });
+
+    stream.on("error", (err) => {
+      console.error("Profile pic upload error:", err);
+      res.status(500).json({ error: "Upload failed." });
+    });
+
+    stream.on("finish", async () => {
+      const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
+      await User.updateOne({ email: req.session.user.email }, { profilePic: publicUrl });
+      res.json({ message: "Profile picture uploaded.", url: publicUrl });
+    });
+
+    stream.end(req.file.buffer);
+  } catch (err) {
+    console.error("Profile pic upload error:", err);
+    res.status(500).json({ error: "Internal error." });
+  }
+});
+
+// ✅ Get profile picture
+app.get("/api/profile-picture", async (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
+
+  const user = await User.findOne({ email: req.session.user.email });
+  if (user && user.profilePic) {
+    res.json({ url: user.profilePic });
+  } else {
+    res.status(404).json({ error: "No profile picture found." });
+  }
+});
+
+// ✅ Get logged-in user's uploaded photos
+app.get("/api/my-photos", async (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
+
+  try {
+    const [files] = await bucket.getFiles();
+    const photos = [];
+
+    for (const file of files) {
+      const [metadata] = await file.getMetadata();
+      if (metadata?.metadata?.uploader === req.session.user.username) {
+        photos.push({
+          url: `https://storage.googleapis.com/${bucketName}/${file.name}`,
+          name: metadata.metadata.name || "Untitled",
+        });
+      }
+    }
+
+    res.json(photos);
+  } catch (err) {
+    console.error("Error fetching user photos:", err);
+    res.status(500).json({ error: "Error fetching your photos." });
+  }
+});
+
+// ✅ Delete account + all uploaded photos
+app.delete("/api/delete-account", async (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
+
+  try {
+    const username = req.session.user.username;
+
+    // Delete user files from bucket
+    const [files] = await bucket.getFiles();
+    const deleteOps = files
+      .filter(file => file.metadata?.metadata?.uploader === username)
+      .map(file => file.delete());
+
+    await Promise.all(deleteOps);
+
+    // Delete profile picture if exists
+    const user = await User.findOne({ username });
+    if (user?.profilePic?.includes("profilepics/")) {
+      const picFile = user.profilePic.split("/").pop();
+      await bucket.file(`profilepics/${picFile}`).delete().catch(() => {});
+    }
+
+    await User.deleteOne({ username });
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid", {
+        path: "/",
+        sameSite: "None",
+        secure: true
+      });
+      res.json({ message: "Account deleted." });
+    });
+  } catch (err) {
+    console.error("Delete account error:", err);
+    res.status(500).json({ error: "Failed to delete account." });
+  }
+});
+
 
 module.exports = app;

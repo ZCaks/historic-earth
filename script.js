@@ -829,3 +829,158 @@ function cancelPhotoEdit() {
 }
 
 window.initMap = initMap;
+
+// 🔐 Load account page logic when on account.html
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.includes("account.html")) {
+    loadAccountPage();
+  }
+});
+
+async function loadAccountPage() {
+  try {
+    const response = await fetch("/api/auth-status", {
+      credentials: "include",
+    });
+    const { loggedIn, user } = await response.json();
+
+    if (!loggedIn) {
+      alert("Please log in to view your account.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    document.getElementById("account-username").value = user.username;
+
+    loadUserPhotos();
+    loadProfilePicture();
+
+    document.getElementById("save-profile-btn").addEventListener("click", saveProfile);
+    document.getElementById("upload-pic-btn").addEventListener("click", uploadProfilePicture);
+    document.getElementById("change-password-btn").addEventListener("click", changePassword);
+    document.getElementById("delete-account-btn").addEventListener("click", deleteAccount);
+
+  } catch (err) {
+    console.error("Error loading account page:", err);
+    alert("Failed to load account page.");
+  }
+}
+
+async function loadProfilePicture() {
+  try {
+    const res = await fetch("/api/profile-picture", { credentials: "include" });
+    const data = await res.json();
+    if (res.ok && data.url) {
+      document.getElementById("profile-pic-preview").src = data.url;
+    }
+  } catch (err) {
+    console.warn("No profile picture found.");
+  }
+}
+
+async function saveProfile() {
+  const newUsername = document.getElementById("account-username").value.trim();
+  const res = await fetch("/api/update-profile", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ username: newUsername })
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    alert("Profile updated!");
+    localStorage.setItem("username", newUsername);
+    window.location.reload();
+  } else {
+    alert(data.error || "Failed to update profile.");
+  }
+}
+
+async function uploadProfilePicture() {
+  const file = document.getElementById("profile-pic-input").files[0];
+  if (!file) {
+    return alert("Please select a photo first.");
+  }
+
+  const formData = new FormData();
+  formData.append("profilePic", file);
+
+  const res = await fetch("/api/upload-profile-pic", {
+    method: "POST",
+    credentials: "include",
+    body: formData
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    alert("Profile picture uploaded!");
+    window.location.reload();
+  } else {
+    alert(data.error || "Upload failed.");
+  }
+}
+
+async function changePassword() {
+  const current = document.getElementById("current-password").value;
+  const newPass = document.getElementById("new-password").value;
+  const repeat = document.getElementById("repeat-new-password").value;
+
+  if (newPass !== repeat) {
+    return alert("New passwords do not match.");
+  }
+
+  const res = await fetch("/api/change-password", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ currentPassword: current, newPassword: newPass })
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    alert("Password changed successfully.");
+  } else {
+    alert(data.error || "Failed to change password.");
+  }
+}
+
+async function deleteAccount() {
+  if (!confirm("Are you sure you want to delete your account? This cannot be undone.")) return;
+
+  const res = await fetch("/api/delete-account", {
+    method: "DELETE",
+    credentials: "include"
+  });
+
+  if (res.ok) {
+    alert("Your account has been deleted.");
+    window.location.href = "index.html";
+  } else {
+    const data = await res.json();
+    alert(data.error || "Account deletion failed.");
+  }
+}
+
+async function loadUserPhotos() {
+  try {
+    const res = await fetch("/api/my-photos", {
+      credentials: "include"
+    });
+    const photos = await res.json();
+
+    const container = document.getElementById("user-photos-container");
+    if (Array.isArray(photos)) {
+      photos.forEach(photo => {
+        const img = document.createElement("img");
+        img.src = photo.url;
+        img.alt = photo.name;
+        img.style.maxWidth = "150px";
+        img.style.margin = "10px";
+        container.appendChild(img);
+      });
+    }
+  } catch (err) {
+    console.error("Error loading photos:", err);
+  }
+}

@@ -8,6 +8,7 @@
     { "src": "terms.html", "use": "@vercel/static" },
     { "src": "style.css", "use": "@vercel/static" },
     { "src": "about.html", "use": "@vercel/static" },
+    { "src": "account.html", "use": "@vercel/static" },
     { "src": "verify-email.html", "use": "@vercel/static" }
   ],
   "routes": [
@@ -19,6 +20,7 @@
     { "src": "/index.html", "dest": "/index.html" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/about.html", "dest": "/about.html" },
+    { "src": "/account.html", "dest": "/account.html" },
     { "src": "/verify-email.html", "dest": "/verify-email.html" }
   ]
 }
