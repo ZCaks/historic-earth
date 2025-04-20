@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verification | Earththen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #4eaaff;
+    }
+    .status-message {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>📬 Email Verification</h1>
+  <div id="status" class="status-message"></div>
+  <p><a href="login.html">Go to Login</a></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("status");
+    const statusDiv = document.getElementById("status");
+
+    switch (status) {
+      case "success":
+        statusDiv.textContent = "✅ Your email has been verified. You can now log in.";
+        statusDiv.classList.add("success");
+        break;
+      case "invalid":
+        statusDiv.textContent = "❌ Invalid or expired token.";
+        statusDiv.classList.add("error");
+        break;
+      case "missing":
+        statusDiv.textContent = "⚠️ No token provided.";
+        statusDiv.classList.add("error");
+        break;
+      case "error":
+        statusDiv.textContent = "🚨 An error occurred during verification.";
+        statusDiv.classList.add("error");
+        break;
+      default:
+        statusDiv.textContent = "📫 Awaiting verification...";
+    }
+  </script>
+</body>
+</html>

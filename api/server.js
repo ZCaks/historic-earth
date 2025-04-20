@@ -14,6 +14,9 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const axios = require("axios");
 const upload = multer({ storage: multer.memoryStorage() });
+const crypto = require("crypto");
+const { Resend } = require("resend");
+const resend = new Resend("re_Jexwy3nK_G7rb1ZCicbr66k5Q7EFwKt81");
 
 
 // ✅ Load environment variables
@@ -94,8 +97,11 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  isModerator: { type: Boolean, default: false }
+  isModerator: { type: Boolean, default: false },
+  verified: { type: Boolean, default: false }
+
 });
+
 const User = mongoose.model("User", userSchema);
 
 // ✅ User Signup Route (Only One Version)
@@ -117,9 +123,35 @@ app.post("/api/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({ username, email, password: hashedPassword, verified: false });
+
+
+
 
     await newUser.save();
+
+    const token = crypto.randomBytes(32).toString("hex");
+
+await EmailVerification.create({
+  userId: newUser._id,
+  token
+});
+
+const link = `https://earththen.net/api/verify-email?token=${token}`;
+
+await resend.emails.send({
+  from: "Earththen <no-reply@earththen.net>",
+  to: [email],
+  subject: "Verify your Earththen account",
+  html: `
+    <h1>Welcome to Earththen 🌍</h1>
+    <p>Please verify your account by clicking the button below:</p>
+    <a href="${link}" style="display:inline-block;padding:10px 20px;background:#4eaaff;color:white;border-radius:5px;text-decoration:none;">Verify Email</a>
+    <p>This link will expire in 24 hours.</p>
+  `
+});
+
+
     res.status(201).json({ message: "Signup successful!" });
 
   } catch (error) {
@@ -127,6 +159,15 @@ app.post("/api/signup", async (req, res) => {
     res.status(500).json({ error: "Error signing up." });
   }
 });
+
+const emailVerificationSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  token: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now, expires: 86400 } // 24 hours
+});
+
+const EmailVerification = mongoose.model("EmailVerification", emailVerificationSchema);
+
 
 // ✅ ReCAPTCHA Verification (Only One Version)
 app.post("/api/verify-recaptcha", async (req, res) => {
@@ -426,6 +467,34 @@ app.get("/api/auth-status", (req, res) => {
   } catch (error) {
       console.error("🔥 Server error in /api/auth-status:", error);
       res.status(500).json({ error: "Internal Server Error", details: error.message });
+  }
+});
+
+app.get("/api/verify-email", async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    if (!token) {
+      return res.redirect("/verify-email.html?status=missing");
+    }
+
+    const record = await EmailVerification.findOne({ token });
+
+    if (!record) {
+      return res.redirect("/verify-email.html?status=invalid");
+    }
+
+    // ✅ Mark user as verified
+    await User.updateOne({ _id: record.userId }, { $set: { verified: true } });
+
+    // ✅ Remove token after use
+    await EmailVerification.deleteOne({ _id: record._id });
+
+    return res.redirect("/verify-email.html?status=success");
+
+  } catch (error) {
+    console.error("Verification Error:", error);
+    return res.redirect("/verify-email.html?status=error");
   }
 });
 
