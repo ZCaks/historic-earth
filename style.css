@@ -310,6 +310,35 @@ h1 {
   margin: 0;
 }
 
+/* 🌞 Light mode (default) */
+#menu-content {
+  padding: 6px 0;
+  min-width: 160px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#menu-content p {
+  margin: 0;
+  padding: 8px 12px;
+  font-weight: bold;
+  color: #000;
+  border-bottom: 1px solid #eee;
+}
+
+#menu-content a {
+  display: block;
+  padding: 8px 12px;
+  color: #000;
+  text-decoration: none;
+}
+
+#menu-content a:hover {
+  background-color: #eee;
+}
+
 @media (prefers-color-scheme: dark) {
   body, html {
     background-color: #121212 !important;
@@ -427,6 +456,24 @@ input[type="number"] {
   border: 1px solid #555 !important;
 }
 
+#menu-content {
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+#menu-content p {
+  color: #f0f0f0;
+  border-bottom: 1px solid #333;
+}
+
+#menu-content a {
+  color: #f0f0f0;
+}
+
+#menu-content a:hover {
+  background-color: #333;
+}
+
   }
 
   .gm-style .gm-center-marker {
@@ -440,31 +487,3 @@ input[type="number"] {
   outline: none !important;
 }
 
-/* Style the dropdown items more cleanly */
-#menu-content {
-  padding: 10px;
-  min-width: 160px;
-  background-color: #1e1e1e;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-  border-radius: 6px;
-}
-
-#menu-content p {
-  margin: 0;
-  font-size: 14px;
-  font-weight: bold;
-  color: #f0f0f0;
-  padding: 6px 10px;
-}
-
-#menu-content a {
-  display: block;
-  padding: 6px 10px;
-  font-size: 14px;
-  color: #f0f0f0;
-  text-decoration: none;
-}
-
-#menu-content a:hover {
-  background-color: #333;
-}
