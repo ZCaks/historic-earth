@@ -439,3 +439,32 @@ input[type="number"] {
   box-shadow: none !important;
   outline: none !important;
 }
+
+/* Style the dropdown items more cleanly */
+#menu-content {
+  padding: 10px;
+  min-width: 160px;
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  border-radius: 6px;
+}
+
+#menu-content p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #f0f0f0;
+  padding: 6px 10px;
+}
+
+#menu-content a {
+  display: block;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #f0f0f0;
+  text-decoration: none;
+}
+
+#menu-content a:hover {
+  background-color: #333;
+}

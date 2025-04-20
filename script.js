@@ -74,8 +74,8 @@ async function checkLoginStatus() {
     
 
       menuContent.innerHTML = `
-      <a href="/about.html">About</a><br>
       <p>Logged in as <strong>${data.user.username}</strong></p>
+      <a href="/about.html">About</a><br>
       <a href="#" id="logout">Logout</a>
     `;
     
