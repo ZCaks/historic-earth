@@ -75,7 +75,7 @@ app.get("/api/maps-loader", (req, res) => {
   res.set("Content-Type", "application/javascript");
   res.send(`
     const script = document.createElement('script');
-    script.src = "https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap";
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
