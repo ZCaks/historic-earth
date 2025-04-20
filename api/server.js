@@ -17,7 +17,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const crypto = require("crypto");
 const { Resend } = require("resend");
 const resend = new Resend("re_Jexwy3nK_G7rb1ZCicbr66k5Q7EFwKt81");
-const connectDB = require("./db"); // Add at the top
+const connectDB = require("../db");
 
 connectDB(); // Call it early — NOT inside route handlers
 
