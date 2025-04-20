@@ -130,11 +130,14 @@ app.post("/api/signup", async (req, res) => {
 await EmailVerification.create({
   userId: newUser._id,
   token
-});
+})
+
+console.log("🔗 Verification link:", link);
+;
 
 const link = `https://earththen.net/api/verify-email?token=${token}`;
 
-await resend.emails.send({
+const response = await resend.emails.send({
   from: "Earththen <no-reply@earththen.net>",
   to: [email],
   subject: "Verify your Earththen account",
@@ -145,6 +148,9 @@ await resend.emails.send({
     <p>This link will expire in 24 hours.</p>
   `
 });
+
+console.log("📧 Resend response:", response);
+
 
 
     res.status(201).json({ message: "Signup successful!" });
@@ -259,6 +265,11 @@ app.post("/api/login", async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+    
+    if (!user.verified) {
+      return res.status(403).json({ error: "Please verify your email before logging in." });
+    }
+    
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
