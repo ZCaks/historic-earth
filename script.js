@@ -74,9 +74,11 @@ async function checkLoginStatus() {
     
 
       menuContent.innerHTML = `
-       <p>Logged in as <strong>${data.user.username}</strong></p>
-       <a href="#" id="logout">Logout</a>
-      `;
+      <a href="/about.html">About</a><br>
+      <p>Logged in as <strong>${data.user.username}</strong></p>
+      <a href="#" id="logout">Logout</a>
+    `;
+    
 
 
       document.getElementById("logout").addEventListener("click", async () => {
@@ -90,6 +92,11 @@ async function checkLoginStatus() {
     } else {
       userStatus.style.display = "none";
       uploadButton.disabled = true;
+      menuContent.innerHTML = `
+  <a href="/about.html">About</a><br>
+  <a href="/login.html">Login / Sign Up</a>
+`;
+
     }
 
     if (data.user.isModerator) {
