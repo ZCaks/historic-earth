@@ -132,10 +132,10 @@ await EmailVerification.create({
   token
 })
 
+const link = `https://earththen.net/api/verify-email?token=${token}`;
+
 console.log("🔗 Verification link:", link);
 ;
-
-const link = `https://earththen.net/api/verify-email?token=${token}`;
 
 const response = await resend.emails.send({
   from: "Earththen <no-reply@earththen.net>",
