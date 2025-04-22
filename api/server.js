@@ -94,7 +94,9 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   isModerator: { type: Boolean, default: false },
   verified: { type: Boolean, default: false },
-  profilePic: { type: String } // ✅ add this!
+  profilePic: { type: String }, 
+  createdAt: { type: Date, default: Date.now }
+
 });
 
 
@@ -445,7 +447,8 @@ if (process.env.NODE_ENV !== "production") {
 
 // ✅ Auth Status Route
 
-app.get("/api/auth-status", (req, res) => {
+app.get("/api/auth-status", async (req, res) => {
+
   try {
       console.log("🔥 SESSION CHECK:", req.session);
       console.log("🔍 Checking auth status...");
@@ -458,16 +461,20 @@ app.get("/api/auth-status", (req, res) => {
       console.log("Session Data:", req.session);
 
       if (req.session.user) {
-          console.log("✅ User is logged in:", req.session.user);
-          return res.json({
-            loggedIn: true,
-            user: {
-              username: req.session.user.username,
-              isModerator: !!req.session.user.isModerator
-            }
-          });
-          
-      } else {
+        console.log("✅ User is logged in:", req.session.user);
+      
+        const fullUser = await User.findOne({ email: req.session.user.email });
+      
+        return res.json({
+          loggedIn: true,
+          user: {
+            username: fullUser.username,
+            isModerator: !!fullUser.isModerator,
+            createdAt: fullUser.createdAt
+          }
+        });
+      }
+       else {
           console.log("❌ No user logged in.");
           return res.json({ loggedIn: false });
       }

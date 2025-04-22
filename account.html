@@ -17,16 +17,19 @@
   <main class="account-container">
     <section id="profile-section">
         <h2>Profile Information</h2>
-        <div id="profile-pic-container">
-          <img id="profile-pic-preview" src="" alt="Profile Picture" />
-          <input type="file" id="profile-pic-input" accept="image/*" />
-          <button id="upload-pic-btn">Upload Profile Picture</button>
+        <div class="profile-info-flex">
+          <div class="profile-pic-wrapper">
+            <img id="profile-pic-preview" src="" alt="Profile picture" />
+            <button id="edit-profile-pic-btn">Edit</button>
+            <input type="file" id="profile-pic-input" accept="image/*" style="display: none;" />
+          </div>
+          <div class="profile-details">
+            <p><strong>Username:</strong> <span id="account-username-display">Loading...</span></p>
+            <p><strong>Created:</strong> <span id="account-created-date">Loading...</span></p>
+          </div>
         </div>
-        <label>
-          Username:
-          <input type="text" id="account-username" readonly />
-        </label>
       </section>
+      
       
 
     <hr>

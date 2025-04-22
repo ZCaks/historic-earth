@@ -464,6 +464,46 @@ form p {
   margin-top: 0;
 }
 
+.profile-info-flex {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.profile-pic-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#profile-pic-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #aaa;
+  background-color: #222;
+}
+
+#edit-profile-pic-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#edit-profile-pic-btn:hover {
+  background: #555;
+}
+
+.profile-details p {
+  margin: 5px 0;
+}
+
 
 @media (prefers-color-scheme: dark) {
   body, html {
