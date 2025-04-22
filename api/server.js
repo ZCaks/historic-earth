@@ -93,9 +93,10 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isModerator: { type: Boolean, default: false },
-  verified: { type: Boolean, default: false }
-
+  verified: { type: Boolean, default: false },
+  profilePic: { type: String } // ✅ add this!
 });
+
 
 const User = mongoose.model("User", userSchema);
 
