@@ -860,10 +860,18 @@ async function loadAccountPage() {
     loadUserPhotos();
     loadProfilePicture();
 
-    document.getElementById("save-profile-btn").addEventListener("click", saveProfile);
-    document.getElementById("upload-pic-btn").addEventListener("click", uploadProfilePicture);
-    document.getElementById("change-password-btn").addEventListener("click", changePassword);
-    document.getElementById("delete-account-btn").addEventListener("click", deleteAccount);
+    const saveBtn = document.getElementById("save-profile-btn");
+    if (saveBtn) saveBtn.addEventListener("click", saveProfile);
+    
+    const uploadBtn = document.getElementById("upload-pic-btn");
+    if (uploadBtn) uploadBtn.addEventListener("click", uploadProfilePicture);
+    
+    const changePassBtn = document.getElementById("change-password-btn");
+    if (changePassBtn) changePassBtn.addEventListener("click", changePassword);
+    
+    const deleteBtn = document.getElementById("delete-account-btn");
+    if (deleteBtn) deleteBtn.addEventListener("click", deleteAccount);
+    
 
   } catch (err) {
     console.error("Error loading account page:", err);
