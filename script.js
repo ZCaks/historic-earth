@@ -834,13 +834,10 @@ window.initMap = initMap;
 // 🔐 Load account page logic when on account.html
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.includes("account.html")) {
-    if (document.getElementById("save-profile-btn")) {
-      loadAccountPage();
-    } else {
-      console.warn("⚠️ Account elements missing. Skipping account setup.");
-    }
+    loadAccountPage(); // ✅ Always call this
   }
 });
+
 
 
 async function loadAccountPage() {
