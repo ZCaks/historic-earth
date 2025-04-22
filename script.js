@@ -856,7 +856,9 @@ async function loadAccountPage() {
       return;
     }
 
-    document.getElementById("account-username").value = user.username;
+    document.getElementById("account-username-display").textContent = user.username;
+    document.getElementById("account-created-date").textContent = new Date(user.createdAt).toLocaleDateString();
+    
 
     loadUserPhotos();
     loadProfilePicture();
