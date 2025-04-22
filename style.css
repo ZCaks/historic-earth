@@ -417,6 +417,54 @@ button:hover {
   object-fit: cover;
 }
 
+/* ============================= */
+/* 🔐 Login / Signup Layout Fix */
+/* ============================= */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+form h2 {
+  margin-top: 0;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+form label {
+  font-size: 14px;
+}
+
+form button {
+  width: fit-content;
+  padding: 10px 20px;
+  background-color: #008080;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #006666;
+}
+
+form p {
+  margin-top: 0;
+}
+
+
 @media (prefers-color-scheme: dark) {
   body, html {
     background-color: #121212 !important;

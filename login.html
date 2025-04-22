@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Earththen</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeAPxcrAAAAAGzen-KVMpVjbEKaKnfNSLEyqdQn" async defer></script>
-
-
-  
 </head>
 <body>
   <header>
@@ -18,7 +15,7 @@
     </nav>
   </header>
 
-  <main>
+  <main style="padding: 20px; max-width: 600px; margin: auto;">
     <!-- ✅ User Status Display -->
     <div id="user-status" style="display: none;">
       <h2>Welcome, <span id="user-username"></span>!</h2>
@@ -28,8 +25,8 @@
     <!-- ✅ Login Form -->
     <form id="login-form">
       <h2>Login</h2>
-      <input type="email" id="login-email" placeholder="Email" required>
-      <input type="password" id="login-password" placeholder="Password" required>
+      <input type="email" id="login-email" placeholder="Email" autocomplete="email" required />
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required />
       <button type="submit">Login</button>
       <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
     </form>
@@ -38,32 +35,31 @@
     <div id="forgot-password-container" style="display: none;">
       <h2>Reset Password</h2>
       <p>Enter your email, and we will send you a reset link.</p>
-      <input type="email" id="forgot-password-email" placeholder="Enter your email" required>
+      <input type="email" id="forgot-password-email" placeholder="Enter your email" autocomplete="email" required />
       <button id="forgot-password-submit">Send Reset Link</button>
       <p><a href="#" id="back-to-login">← Back to Login</a></p>
     </div>
 
-    <hr>
+    <hr />
 
     <!-- ✅ Sign-Up Form -->
     <form id="signup-form">
       <h2>Sign Up</h2>
-      <input type="text" id="signup-username" placeholder="Username" required>
-      <input type="email" id="signup-email" placeholder="Email" required>
-      <input type="password" id="signup-password" placeholder="Password" required>
-      <input type="password" id="signup-password-repeat" placeholder="Repeat Password" required>
-      
+      <input type="text" id="signup-username" placeholder="Username" autocomplete="username" required />
+      <input type="email" id="signup-email" placeholder="Email" autocomplete="email" required />
+      <input type="password" id="signup-password" placeholder="Password" autocomplete="new-password" required />
+      <input type="password" id="signup-password-repeat" placeholder="Repeat Password" autocomplete="new-password" required />
+
       <label>
-        <input type="checkbox" id="terms-checkbox" required>
+        <input type="checkbox" id="terms-checkbox" required />
         I have read and agree to the <a href="terms.html">Terms of Agreement</a>.
       </label>
-      
-      <input type="hidden" id="recaptcha-token" name="g-recaptcha-response">
+
+      <input type="hidden" id="recaptcha-token" name="g-recaptcha-response" />
       <button type="submit">Sign Up</button>
     </form>
   </main>
 
-  <!-- ✅ Include main JS -->
   <script src="script.js" defer></script>
 </body>
 </html>
