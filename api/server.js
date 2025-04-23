@@ -57,6 +57,8 @@ app.use(session({
 
 // ✅ Serve frontend files
 app.use(express.static(path.join(__dirname, "../")));
+app.use("/images", express.static(path.join(__dirname, "../images")));
+
 
 // ✅ Initialize Google Cloud Storage
 const storage = new Storage({ keyFilename: path.join(__dirname, "service-account-key.json") });
@@ -597,17 +599,24 @@ app.post("/api/upload-profile-pic", upload.single("profilePic"), async (req, res
   }
 });
 
-// ✅ Get profile picture
 app.get("/api/profile-picture", async (req, res) => {
   if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
 
-  const user = await User.findOne({ email: req.session.user.email });
-  if (user && user.profilePic) {
-    res.json({ url: user.profilePic });
-  } else {
-    res.status(404).json({ error: "No profile picture found." });
+  try {
+    const user = await User.findOne({ email: req.session.user.email });
+
+    if (user?.profilePic) {
+      return res.json({ url: user.profilePic });
+    }
+
+    // ✅ Fallback to local static image
+    return res.json({ url: "/images/Default_profile.png" });
+  } catch (err) {
+    console.error("Error getting profile picture:", err);
+    res.status(500).json({ error: "Failed to load profile picture." });
   }
 });
+
 
 // ✅ Get logged-in user's uploaded photos
 app.get("/api/my-photos", async (req, res) => {
