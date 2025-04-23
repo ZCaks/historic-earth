@@ -884,6 +884,15 @@ async function loadAccountPage() {
     console.error("Error loading account page:", err);
     alert("Failed to load account page.");
   }
+  document.getElementById("toggle-password-edit").addEventListener("click", () => {
+    const section = document.getElementById("password-section");
+    const button = document.getElementById("toggle-password-edit");
+  
+    const isVisible = section.style.display === "block";
+    section.style.display = isVisible ? "none" : "block";
+    button.textContent = isVisible ? "Edit" : "Cancel";
+  });
+  
 }
 
 async function loadProfilePicture() {
