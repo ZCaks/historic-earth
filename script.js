@@ -972,6 +972,9 @@ async function changePassword() {
   const data = await res.json();
   if (res.ok) {
     alert("Password changed successfully.");
+    document.getElementById("password-form").style.display = "none";
+    document.getElementById("toggle-password-edit").textContent = "Edit password";
+
   } else {
     alert(data.error || "Failed to change password.");
   }
