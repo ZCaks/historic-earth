@@ -38,6 +38,21 @@ function initMap() {
   setupLegendFilters();
   setupAuthentication();
   checkLoginStatus(); // 🔥 Ensure session check runs
+
+  // 🔍 If redirected from account, show that photo
+const highlightUrl = localStorage.getItem("highlightPhotoUrl");
+if (highlightUrl) {
+  setTimeout(() => {
+    const target = markers.find(m => m.photoUrl === highlightUrl);
+    if (target) {
+      map.setCenter(target.getPosition());
+      map.setZoom(12);
+      google.maps.event.trigger(target, "click");
+    }
+    localStorage.removeItem("highlightPhotoUrl");
+  }, 1000);
+}
+
 }
 
 // 🔹 Check Login Status and Display User Info
@@ -143,6 +158,9 @@ async function fetchPhotos() {
           strokeWeight: 0,
         },
       });
+
+      marker.photoUrl = photo.url; // ✅ Store URL for lookup
+
 
       marker.categoryColor = markerColor;
       markers.push(marker);
@@ -1010,10 +1028,19 @@ async function loadUserPhotos() {
         const img = document.createElement("img");
         img.src = photo.url;
         img.alt = photo.name;
+        img.dataset.url = photo.url; // 🔹 store photo URL
         img.style.maxWidth = "150px";
         img.style.margin = "10px";
+        img.style.cursor = "pointer";
+      
+        img.addEventListener("click", () => {
+          localStorage.setItem("highlightPhotoUrl", photo.url); // ✅ Save photo URL before redirect
+          window.location.href = "index.html";
+        });
+      
         container.appendChild(img);
       });
+      
     }
   } catch (err) {
     console.error("Error loading photos:", err);
