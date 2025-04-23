@@ -885,7 +885,7 @@ async function loadAccountPage() {
     alert("Failed to load account page.");
   }
   const toggleBtn = document.getElementById("toggle-password-edit");
-  const passwordFields = document.getElementById("password-fields");
+  const passwordFields = document.getElementById("password-form");
   
   if (toggleBtn && passwordFields) {
     toggleBtn.addEventListener("click", () => {
