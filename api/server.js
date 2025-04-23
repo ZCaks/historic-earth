@@ -262,9 +262,15 @@ await file.setMetadata({
 // ✅ User Login Route
 app.post("/api/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { usernameOrEmail, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [
+        { email: usernameOrEmail },
+        { username: usernameOrEmail }
+      ]
+    });
+    
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }

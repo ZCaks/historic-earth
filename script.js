@@ -370,7 +370,7 @@ function setupAuthentication() {
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("login-email").value;
+      const usernameOrEmail = document.getElementById("login-username-or-email").value;
       const password = document.getElementById("login-password").value;
 
       if (typeof grecaptcha !== "undefined" && grecaptcha.enterprise) {
@@ -381,7 +381,7 @@ function setupAuthentication() {
                 const response = await fetch("/api/login", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ email, password, recaptchaToken: token }),
+                  body: JSON.stringify({ usernameOrEmail, password, recaptchaToken: token }),
                   credentials: "include"
                 });
 
@@ -456,7 +456,7 @@ function setupAuthentication() {
                 const data = await response.json();
 
                 if (response.ok) {
-                  alert("Signup successful! You can now log in.");
+                  alert('Signup successful! Please verify your email before logging in.');
                   window.location.href = "login.html";
                 } else {
                   alert("Signup failed: " + (data.error || "Unknown error."));
