@@ -884,14 +884,17 @@ async function loadAccountPage() {
     console.error("Error loading account page:", err);
     alert("Failed to load account page.");
   }
-  document.getElementById("toggle-password-edit").addEventListener("click", () => {
-    const section = document.getElementById("password-section");
-    const button = document.getElementById("toggle-password-edit");
+  const toggleBtn = document.getElementById("toggle-password-edit");
+  const passwordFields = document.getElementById("password-fields");
   
-    const isVisible = section.style.display === "block";
-    section.style.display = isVisible ? "none" : "block";
-    button.textContent = isVisible ? "Edit" : "Cancel";
-  });
+  if (toggleBtn && passwordFields) {
+    toggleBtn.addEventListener("click", () => {
+      const isVisible = passwordFields.style.display === "block";
+      passwordFields.style.display = isVisible ? "none" : "block";
+      toggleBtn.textContent = isVisible ? "Edit" : "Cancel";
+    });
+  }
+  
   
 }
 
