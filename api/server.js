@@ -610,7 +610,8 @@ app.get("/api/profile-picture", async (req, res) => {
     }
 
     // ✅ Fallback to local static image
-    return res.json({ url: "/images/Default_profile.png" });
+    return res.json({ url: "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png" });
+
   } catch (err) {
     console.error("Error getting profile picture:", err);
     res.status(500).json({ error: "Failed to load profile picture." });
