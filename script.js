@@ -860,6 +860,11 @@ async function loadAccountPage() {
     loadUserPhotos();
     loadProfilePicture();
 
+    document.getElementById("edit-profile-pic-btn").addEventListener("click", () => {
+      document.getElementById("profile-pic-input").click();
+    });
+    
+
     const saveBtn = document.getElementById("save-profile-btn");
     if (saveBtn) saveBtn.addEventListener("click", saveProfile);
     
