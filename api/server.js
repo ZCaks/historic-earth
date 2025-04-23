@@ -96,10 +96,12 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   isModerator: { type: Boolean, default: false },
   verified: { type: Boolean, default: false },
-  profilePic: { type: String }, 
-  createdAt: { type: Date, default: Date.now }
-
+  profilePic: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  passwordResetToken: { type: String },
+  passwordResetExpires: { type: Date }
 });
+
 
 
 const User = mongoose.model("User", userSchema);
@@ -520,6 +522,52 @@ app.get("/api/verify-email", async (req, res) => {
   }
 });
 
+// 🔐 Password Reset Request Handler
+app.post("/api/request-password-reset", async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: "Email is required." });
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    // Respond the same for all to prevent email guessing
+    return res.status(200).json({ message: "If that email exists, a reset link will be sent." });
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+  const tokenExpiry = Date.now() + 1000 * 60 * 30; // 30 minutes
+
+  user.passwordResetToken = token;
+  user.passwordResetExpires = new Date(tokenExpiry);
+  await user.save();
+
+  const resetUrl = `https://www.earththen.net/reset-password.html?token=${token}`;
+  const resendResponse = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer re_Jexwy3nK_G7rb1ZCicbr66k5Q7EFwKt81", // ✅ Your Resend API key
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      from: "noreply@earththen.net",
+      to: email,
+      subject: "Reset your Earththen password",
+      html: `
+        <p>You requested to reset your password.</p>
+        <p><a href="${resetUrl}">Click here to reset your password</a></p>
+        <p>This link will expire in 30 minutes.</p>
+      `
+    })
+  });
+
+  if (!resendResponse.ok) {
+    console.error("❌ Failed to send reset email:", await resendResponse.text());
+    return res.status(500).json({ error: "Failed to send reset email." });
+  }
+
+  res.status(200).json({ message: "Reset email sent." });
+});
+
+
 // ✅ Update profile username
 app.put("/api/update-profile", async (req, res) => {
   if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });
@@ -615,6 +663,37 @@ app.get("/api/profile-picture", async (req, res) => {
   } catch (err) {
     console.error("Error getting profile picture:", err);
     res.status(500).json({ error: "Failed to load profile picture." });
+  }
+});
+
+// ✅ Reset Password Handler
+app.post("/api/reset-password", async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    return res.status(400).json({ error: "Missing token or new password." });
+  }
+
+  try {
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetExpires: { $gt: Date.now() } // still valid
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid or expired token." });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful. You can now log in." });
+  } catch (err) {
+    console.error("❌ Reset password error:", err);
+    res.status(500).json({ error: "Server error while resetting password." });
   }
 });
 
