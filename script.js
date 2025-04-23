@@ -864,6 +864,8 @@ async function loadAccountPage() {
       document.getElementById("profile-pic-input").click();
     });
     
+  document.getElementById("profile-pic-input").addEventListener("change", uploadProfilePicture);
+
 
     const saveBtn = document.getElementById("save-profile-btn");
     if (saveBtn) saveBtn.addEventListener("click", saveProfile);
