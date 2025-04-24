@@ -80,6 +80,9 @@ async function checkLoginStatus() {
       usernameDisplay.textContent = data.user.username;
       userStatus.style.display = "block";
       uploadButton.disabled = false;
+      uploadButton.style.opacity = "1";
+      uploadButton.style.cursor = "pointer";
+
     
       // ✅ Store moderator status
       isModerator = data.user.isModerator || false;
@@ -108,10 +111,16 @@ async function checkLoginStatus() {
     } else {
       userStatus.style.display = "none";
       uploadButton.disabled = true;
+      uploadButton.style.opacity = "0.5";
+      uploadButton.style.cursor = "not-allowed";
+
       menuContent.innerHTML = `
   <a href="/about.html">About</a><br>
   <a href="/login.html">Login / Sign Up</a>
 `;
+      uploadButton.addEventListener("click", () => {
+      alert("You must be logged in to upload photos.");
+      });
 
     }
 
