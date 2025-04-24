@@ -239,18 +239,33 @@ async function displayPhoto(photoData) {
   const modControls = document.getElementById("moderator-controls");
   modControls.innerHTML = "";
 
-  if (localStorage.getItem("isModerator") === "true") {
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
+  const isMod = localStorage.getItem("isModerator") === "true";
+
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  editBtn.disabled = !isMod;
+  if (isMod) {
     editBtn.onclick = () => prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description);
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.onclick = () => deletePhoto(photoData.url);
-
-    modControls.appendChild(editBtn);
-    modControls.appendChild(deleteBtn);
+  } else {
+    editBtn.style.opacity = "0.5";
+    editBtn.style.cursor = "not-allowed";
+    editBtn.title = "Only moderators can edit photos.";
   }
+  
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.disabled = !isMod;
+  if (isMod) {
+    deleteBtn.onclick = () => deletePhoto(photoData.url);
+  } else {
+    deleteBtn.style.opacity = "0.5";
+    deleteBtn.style.cursor = "not-allowed";
+    deleteBtn.title = "Only moderators can delete photos.";
+  }
+  
+  modControls.appendChild(editBtn);
+  modControls.appendChild(deleteBtn);
+  
 }
 
 
