@@ -247,28 +247,26 @@ const editBtn = document.createElement("button");
 editBtn.textContent = "Edit";
 editBtn.type = "button";
 
-const deleteBtn = document.createElement("button");
-deleteBtn.textContent = "Delete";
-deleteBtn.type = "button";
-
 if (isMod || isUploader) {
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  editBtn.type = "button";
   editBtn.addEventListener("click", () =>
     prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description)
   );
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.type = "button";
   deleteBtn.addEventListener("click", () => deletePhoto(photoData.url));
+
+  modControls.appendChild(editBtn);
+  modControls.appendChild(deleteBtn);
 } else {
-  editBtn.style.opacity = "0.5";
-  deleteBtn.style.opacity = "0.5";
-
-  editBtn.style.cursor = "not-allowed";
-  deleteBtn.style.cursor = "not-allowed";
-
-  editBtn.style.pointerEvents = "none";
-  deleteBtn.style.pointerEvents = "none";
-
-  editBtn.title = "Only moderators or the uploader can edit this photo.";
-  deleteBtn.title = "Only moderators or the uploader can delete this photo.";
+  // Don't show any buttons at all
+  modControls.style.display = "none";
 }
+
 
 
 
