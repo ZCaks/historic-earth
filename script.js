@@ -235,43 +235,42 @@ async function displayPhoto(photoData) {
   photoViewer.style.background = "transparent"; // 👈 this is the magic
   metadata.style.display = "block";
 
-  // Inject moderator buttons
-  const modControls = document.getElementById("moderator-controls");
-  modControls.innerHTML = "";
+// Inject moderator buttons
+const modControls = document.getElementById("moderator-controls");
+modControls.innerHTML = "";
 
-  const currentUsername = localStorage.getItem("username") || "";
-  const isMod = localStorage.getItem("isModerator") === "true";
-  const isUploader = (photoData.uploader || "") === currentUsername;
-  
-  modControls.innerHTML = "";
-  
-  const editBtn = document.createElement("button");
-  editBtn.textContent = "Edit";
-  
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  
-  if (isMod || isUploader) {
-    editBtn.onclick = () => prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description);
-    deleteBtn.onclick = () => deletePhoto(photoData.url);
-  } else {
-    editBtn.disabled = true;
-    deleteBtn.disabled = true;
-  
-    editBtn.style.opacity = "0.5";
-    deleteBtn.style.opacity = "0.5";
-    editBtn.style.cursor = "not-allowed";
-    deleteBtn.style.cursor = "not-allowed";
-  
-    editBtn.title = "Only moderators or the uploader can edit this photo.";
-    deleteBtn.title = "Only moderators or the uploader can delete this photo.";
-  }
-  
-  modControls.appendChild(editBtn);
-  modControls.appendChild(deleteBtn);
-  
-  
-  
+const currentUsername = localStorage.getItem("username") || "";
+const isMod = localStorage.getItem("isModerator") === "true";
+const isUploader = (photoData.uploader || "") === currentUsername;
+
+const editBtn = document.createElement("button");
+editBtn.textContent = "Edit";
+editBtn.type = "button";
+
+const deleteBtn = document.createElement("button");
+deleteBtn.textContent = "Delete";
+deleteBtn.type = "button";
+
+if (isMod || isUploader) {
+  editBtn.onclick = () => prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description);
+  deleteBtn.onclick = () => deletePhoto(photoData.url);
+} else {
+  editBtn.disabled = true;
+  deleteBtn.disabled = true;
+
+  editBtn.style.opacity = "0.5";
+  deleteBtn.style.opacity = "0.5";
+  editBtn.style.cursor = "not-allowed";
+  deleteBtn.style.cursor = "not-allowed";
+
+  editBtn.title = "Only moderators or the uploader can edit this photo.";
+  deleteBtn.title = "Only moderators or the uploader can delete this photo.";
+}
+
+modControls.appendChild(editBtn);
+modControls.appendChild(deleteBtn);
+
+   
 }
 
 
