@@ -744,6 +744,11 @@ if (uploadForm) {
       return;
     }
 
+    if (file.size > 10 * 1024 * 1024) {
+      return alert("Photo is too large. Maximum allowed size is 10MB.");
+    }
+    
+
     const formData = new FormData();
     formData.append("photo", file);
     formData.append("name", name);
@@ -963,6 +968,10 @@ async function uploadProfilePicture() {
   if (!file) {
     return alert("Please select a photo first.");
   }
+  if (file.size > 2 * 1024 * 1024) {
+    return alert("File is too large. Maximum allowed size is 2MB.");
+  }
+  
 
   const formData = new FormData();
   formData.append("profilePic", file);

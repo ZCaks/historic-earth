@@ -13,7 +13,10 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const axios = require("axios");
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB max
+});
 const crypto = require("crypto");
 const { Resend } = require("resend");
 const resend = new Resend("re_Jexwy3nK_G7rb1ZCicbr66k5Q7EFwKt81");
@@ -26,6 +29,9 @@ connectDB(); // Call it early — NOT inside route handlers
 require("dotenv").config();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '10mb' }));
+
 app.use(cors({
   origin: ["https://earththen.net", "https://www.earththen.net"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
