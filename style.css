@@ -504,6 +504,27 @@ form p {
   margin: 5px 0;
 }
 
+#photo-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+
+#photo-uploader-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#photo-uploader-pic {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 
 @media (prefers-color-scheme: dark) {
   body, html {
