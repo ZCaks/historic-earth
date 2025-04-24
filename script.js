@@ -252,23 +252,24 @@ deleteBtn.textContent = "Delete";
 deleteBtn.type = "button";
 
 if (isMod || isUploader) {
-  editBtn.onclick = () => prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description);
-  deleteBtn.onclick = () => deletePhoto(photoData.url);
+  editBtn.addEventListener("click", () =>
+    prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description)
+  );
+  deleteBtn.addEventListener("click", () => deletePhoto(photoData.url));
 } else {
-  editBtn.disabled = true;
-  deleteBtn.disabled = true;
-
   editBtn.style.opacity = "0.5";
   deleteBtn.style.opacity = "0.5";
+
   editBtn.style.cursor = "not-allowed";
   deleteBtn.style.cursor = "not-allowed";
 
-  editBtn.classList.add("disabled-button");
-  deleteBtn.classList.add("disabled-button");
+  editBtn.style.pointerEvents = "none";
+  deleteBtn.style.pointerEvents = "none";
 
   editBtn.title = "Only moderators or the uploader can edit this photo.";
   deleteBtn.title = "Only moderators or the uploader can delete this photo.";
 }
+
 
 
 
