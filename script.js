@@ -101,14 +101,19 @@ async function checkLoginStatus() {
     
 
 
-      document.getElementById("logout").addEventListener("click", async () => {
-        await fetch("/api/logout", {
-          method: "POST",
-          credentials: "include" // ✅ required
-        });
-        
-        window.location.reload();
+    document.getElementById("logout").addEventListener("click", async () => {
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include"
       });
+    
+      // ✅ Clear localStorage on logout
+      localStorage.removeItem("username");
+      localStorage.removeItem("isModerator");
+    
+      window.location.reload();
+    });
+    
     } else {
       userStatus.style.display = "none";
       uploadButton.disabled = true;
@@ -240,15 +245,9 @@ async function displayPhoto(photoData) {
 const modControls = document.getElementById("moderator-controls");
 modControls.innerHTML = ""; // 🔥 Always clear old buttons
 
-const currentUsername = localStorage.getItem("username") || "";
+const storedUser = localStorage.getItem("username") || "";
 const isMod = localStorage.getItem("isModerator") === "true";
-const isUploader = (photoData.uploader || "") === currentUsername;
-
-console.log("🔍 MODERATOR?", isMod);
-console.log("🔍 UPLOADER?", isUploader);
-console.log("👤 CURRENT USER:", currentUsername);
-console.log("📷 PHOTO UPLOADER:", photoData.uploader);
-
+const isUploader = (photoData.uploader || "") === storedUser;
 
 if (isMod || isUploader) {
   modControls.style.display = "flex";
@@ -256,7 +255,7 @@ if (isMod || isUploader) {
   const editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
   editBtn.type = "button";
-  editBtn.className = "btn btn-primary"; // or your preferred classes  
+  editBtn.className = "btn btn-primary";
   editBtn.addEventListener("click", () =>
     prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description)
   );
@@ -264,15 +263,16 @@ if (isMod || isUploader) {
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
   deleteBtn.type = "button";
-  deleteBtn.className = "btn btn-danger"; // style for delete
-
+  deleteBtn.className = "btn btn-danger";
   deleteBtn.addEventListener("click", () => deletePhoto(photoData.url));
 
   modControls.appendChild(editBtn);
   modControls.appendChild(deleteBtn);
 } else {
-  modControls.style.display = "none"; // 🔒 Force hidden if not mod or uploader
+  modControls.innerHTML = ""; // ⛔ Clear any lingering buttons
+  modControls.style.display = "none";
 }
+
 
    
 }
