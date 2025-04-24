@@ -78,6 +78,7 @@ async function checkLoginStatus() {
 
     if (data.loggedIn) {
       usernameDisplay.textContent = data.user.username;
+      localStorage.setItem("username", data.user.username); // ✅ store for later use
       userStatus.style.display = "block";
       uploadButton.disabled = false;
       uploadButton.style.opacity = "1";
