@@ -196,7 +196,7 @@ function getMarkerColor(category) {
   }
 }
 
-function displayPhoto(photoData) {
+async function displayPhoto(photoData) {
   const photoViewer = document.getElementById("photo-viewer");
   const metadata = document.getElementById("photo-metadata");
   console.log("👀 Viewing photo:", photoData);
@@ -207,8 +207,19 @@ function displayPhoto(photoData) {
   document.getElementById("photo-name-display").textContent = photoData.name;
   document.getElementById("photo-year-display").textContent = photoData.year || "Unknown";
   document.getElementById("photo-description-display").textContent = photoData.description || "No description provided.";
-  document.getElementById("photo-uploader-display").textContent = photoData.uploader || "Unknown";
-
+  const uploaderName = photoData.uploader || "Unknown";
+  document.getElementById("photo-uploader-display").textContent = uploaderName;
+  
+  const profilePic = document.getElementById("photo-uploader-pic");
+  try {
+    const res = await fetch(`/api/get-profile-pic?username=${encodeURIComponent(uploaderName)}`);
+    const data = await res.json();
+    profilePic.src = data.url || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
+  } catch (err) {
+    console.warn("Profile picture load failed:", err);
+    profilePic.src = "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
+  }
+  
   // Show both containers
   photoViewer.style.display = "block";
   photoViewer.style.padding = "0"; // 👈 This removes the default inline padding

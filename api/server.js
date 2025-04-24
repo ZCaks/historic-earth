@@ -378,6 +378,24 @@ app.get("/api/photos", async (req, res) => {
   }
 });
 
+app.get("/api/get-profile-pic", async (req, res) => {
+  const { username } = req.query;
+  if (!username) return res.status(400).json({ error: "Username is required." });
+
+  try {
+    const user = await User.findOne({ username });
+    if (user?.profilePic) {
+      return res.json({ url: user.profilePic });
+    } else {
+      return res.json({ url: "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png" });
+    }
+  } catch (err) {
+    console.error("Error loading profile picture:", err);
+    res.status(500).json({ error: "Server error." });
+  }
+});
+
+
 app.post("/api/upload", upload.single("photo"), async (req, res) => {
   try {
     const { name, year, description, coordinates, exactLocation } = req.body;
