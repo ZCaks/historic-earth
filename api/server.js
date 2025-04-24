@@ -13,10 +13,7 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const axios = require("axios");
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB max
-});
+const upload = multer({ storage: multer.memoryStorage() });
 const crypto = require("crypto");
 const { Resend } = require("resend");
 const resend = new Resend("re_Jexwy3nK_G7rb1ZCicbr66k5Q7EFwKt81");
@@ -29,9 +26,6 @@ connectDB(); // Call it early — NOT inside route handlers
 require("dotenv").config();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(express.json({ limit: '10mb' }));
-
 app.use(cors({
   origin: ["https://earththen.net", "https://www.earththen.net"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -217,55 +211,71 @@ app.post("/api/verify-recaptcha", async (req, res) => {
 });
 
 // ✅ DELETE photo
-app.delete("/api/photo/:filename", (req, res) => {
-  if (!req.session?.user?.isModerator) {
-    return res.status(403).json({ error: "Only moderators can edit or delete content" });
-  }
-
+app.delete("/api/photo/:filename", async (req, res) => {
   const filename = req.params.filename;
   const file = bucket.file(filename);
 
-  file.delete()
-    .then(() => res.json({ message: "Photo deleted" }))
-    .catch(err => {
-      console.error("Error deleting file:", err);
-      res.status(500).json({ error: "Failed to delete" });
-    });
+  try {
+    const [metadata] = await file.getMetadata();
+    const uploader = metadata.metadata?.uploader || "";
+
+    const sessionUser = req.session.user?.username;
+    const isMod = req.session.user?.isModerator;
+
+    if (sessionUser !== uploader && !isMod) {
+      return res.status(403).json({ error: "You are not authorized to delete this photo." });
+    }
+
+    await file.delete();
+    res.json({ message: "Photo deleted" });
+
+  } catch (err) {
+    console.error("Error deleting file:", err);
+    res.status(500).json({ error: "Failed to delete photo." });
+  }
 });
+
 
 app.put("/api/photo/:filename", async (req, res) => {
-  if (!req.session?.user?.isModerator) {
-    return res.status(403).json({ error: "Only moderators can edit or delete content" });
-  }
-
-  const { filename } = req.params;
-  const { name, year, description, coordinates, exactLocation } = req.body;
+  const filename = req.params.filename;
+  const file = bucket.file(filename);
 
   try {
-    const file = bucket.file(filename);
     const [metadata] = await file.getMetadata();
     const currentMeta = metadata.metadata || {};
+    const uploader = currentMeta.uploader || "";
+
+    const sessionUser = req.session.user?.username;
+    const isMod = req.session.user?.isModerator;
+
+    if (sessionUser !== uploader && !isMod) {
+      return res.status(403).json({ error: "You are not authorized to edit this photo." });
+    }
+
+    const { name, year, description, coordinates, exactLocation } = req.body;
 
     const newYear = year || currentMeta.year;
-const newCoords = coordinates ? JSON.stringify(coordinates) : currentMeta.coordinates;
+    const newCoords = coordinates ? JSON.stringify(coordinates) : currentMeta.coordinates;
 
-await file.setMetadata({
-  metadata: {
-    name: name || currentMeta.name,
-    year: newYear,
-    description: description || currentMeta.description,
-    coordinates: newCoords,
-    category: determineCategory(newYear, newCoords, exactLocation === "true"),
-  }
-});
-
+    await file.setMetadata({
+      metadata: {
+        name: name || currentMeta.name,
+        year: newYear,
+        description: description || currentMeta.description,
+        coordinates: newCoords,
+        category: determineCategory(newYear, newCoords, exactLocation === "true"),
+        uploader // Keep uploader unchanged
+      }
+    });
 
     res.json({ message: "Metadata updated!" });
+
   } catch (err) {
     console.error("Error updating metadata:", err);
     res.status(500).json({ error: "Failed to update metadata." });
   }
 });
+
 
 
 
@@ -384,22 +394,6 @@ app.get("/api/photos", async (req, res) => {
   }
 });
 
-app.get("/api/get-profile-pic", async (req, res) => {
-  const { username } = req.query;
-  if (!username) return res.status(400).json({ error: "Username is required." });
-
-  try {
-    const user = await User.findOne({ username });
-    if (user?.profilePic) {
-      return res.json({ url: user.profilePic });
-    } else {
-      return res.json({ url: "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png" });
-    }
-  } catch (err) {
-    console.error("Error loading profile picture:", err);
-    res.status(500).json({ error: "Server error." });
-  }
-});
 
 
 app.post("/api/upload", upload.single("photo"), async (req, res) => {
