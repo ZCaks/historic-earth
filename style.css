@@ -525,6 +525,12 @@ form p {
   object-fit: cover;
 }
 
+.disabled-button {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+
 
 @media (prefers-color-scheme: dark) {
   body, html {
