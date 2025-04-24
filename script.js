@@ -244,10 +244,6 @@ const currentUsername = localStorage.getItem("username") || "";
 const isMod = localStorage.getItem("isModerator") === "true";
 const isUploader = (photoData.uploader || "") === currentUsername;
 
-const editBtn = document.createElement("button");
-editBtn.textContent = "Edit";
-editBtn.type = "button";
-
 if (isMod || isUploader) {
   modControls.style.display = "flex";
 
@@ -266,16 +262,6 @@ if (isMod || isUploader) {
   modControls.appendChild(editBtn);
   modControls.appendChild(deleteBtn);
 }
-
-
-
-
-
-
-
-modControls.appendChild(editBtn);
-modControls.appendChild(deleteBtn);
-
    
 }
 
