@@ -249,6 +249,7 @@ if (isMod || isUploader) {
   const editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
   editBtn.type = "button";
+  editBtn.className = "btn btn-primary"; // or your preferred classes  
   editBtn.addEventListener("click", () =>
     prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description)
   );
@@ -256,6 +257,8 @@ if (isMod || isUploader) {
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
   deleteBtn.type = "button";
+  deleteBtn.className = "btn btn-danger"; // style for delete
+
   deleteBtn.addEventListener("click", () => deletePhoto(photoData.url));
 
   modControls.appendChild(editBtn);
