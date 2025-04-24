@@ -238,7 +238,6 @@ async function displayPhoto(photoData) {
 // Inject moderator buttons
 const modControls = document.getElementById("moderator-controls");
 modControls.innerHTML = ""; // 🔥 Always clear old buttons
-modControls.style.display = "none"; // 🔒 Hide by default
 
 const currentUsername = localStorage.getItem("username") || "";
 const isMod = localStorage.getItem("isModerator") === "true";
@@ -261,7 +260,10 @@ if (isMod || isUploader) {
 
   modControls.appendChild(editBtn);
   modControls.appendChild(deleteBtn);
+} else {
+  modControls.style.display = "none"; // 🔒 Force hidden if not mod or uploader
 }
+
    
 }
 
