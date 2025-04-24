@@ -223,8 +223,20 @@
 });
 
 } else {
+  userStatus.style.display = "none";
   uploadButton.disabled = true;
   uploadButton.style.opacity = "0.5";
+  uploadButton.style.cursor = "not-allowed";
+
+  menuContent.innerHTML = `
+    <a href="/about.html">About</a><br>
+    <a href="/login.html">Login / Sign Up</a>
+  `;
+
+  // ✅ Prevent any accidental clicks
+  uploadButton.addEventListener("click", () => {
+    alert("You must be logged in to upload photos.");
+  });
 }
       } // ✅ closes try block
       catch (error) {
