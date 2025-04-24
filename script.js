@@ -239,32 +239,38 @@ async function displayPhoto(photoData) {
   const modControls = document.getElementById("moderator-controls");
   modControls.innerHTML = "";
 
+  const currentUsername = localStorage.getItem("username") || "";
   const isMod = localStorage.getItem("isModerator") === "true";
-
+  const isUploader = (photoData.uploader || "") === currentUsername;
+  
+  modControls.innerHTML = "";
+  
   const editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
-  editBtn.disabled = !isMod;
-  if (isMod) {
-    editBtn.onclick = () => prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description);
-  } else {
-    editBtn.style.opacity = "0.5";
-    editBtn.style.cursor = "not-allowed";
-    editBtn.title = "Only moderators can edit photos.";
-  }
   
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
-  deleteBtn.disabled = !isMod;
-  if (isMod) {
+  
+  if (isMod || isUploader) {
+    editBtn.onclick = () => prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description);
     deleteBtn.onclick = () => deletePhoto(photoData.url);
   } else {
+    editBtn.disabled = true;
+    deleteBtn.disabled = true;
+  
+    editBtn.style.opacity = "0.5";
     deleteBtn.style.opacity = "0.5";
+    editBtn.style.cursor = "not-allowed";
     deleteBtn.style.cursor = "not-allowed";
-    deleteBtn.title = "Only moderators can delete photos.";
+  
+    editBtn.title = "Only moderators or the uploader can edit this photo.";
+    deleteBtn.title = "Only moderators or the uploader can delete this photo.";
   }
   
   modControls.appendChild(editBtn);
   modControls.appendChild(deleteBtn);
+  
+  
   
 }
 
