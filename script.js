@@ -5,6 +5,7 @@ let tempMarker = null;
 let uploadMode = false;
 let editingPhoto = null;
 let editMarker = null;
+let currentUser = null;
 let isModerator = false;
 
 
@@ -79,6 +80,8 @@ async function checkLoginStatus() {
     }
 
     if (data.loggedIn) {
+      currentUser = data.user.username;
+      isModerator = !!data.user.isModerator;
       usernameDisplay.textContent = data.user.username;
       localStorage.setItem("username", data.user.username); // ✅ store for later use
       userStatus.style.display = "block";
@@ -247,11 +250,9 @@ async function displayPhoto(photoData) {
 const modControls = document.getElementById("moderator-controls");
 modControls.innerHTML = ""; // 🔥 Always clear old buttons
 
-const storedUser = localStorage.getItem("username") || "";
-const isMod = localStorage.getItem("isModerator") === "true";
-const isUploader = (photoData.uploader || "") === storedUser;
+const isUploader = currentUser && photoData.uploader === currentUser;
+if (isModerator || isUploader) {
 
-if (isMod || isUploader) {
   modControls.style.display = "flex";
 
   const editBtn = document.createElement("button");
