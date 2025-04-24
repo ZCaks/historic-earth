@@ -231,14 +231,8 @@ async function displayPhoto(photoData) {
   document.getElementById("photo-uploader-display").textContent = uploaderName;
   
   const profilePic = document.getElementById("photo-uploader-pic");
-  try {
-    const res = await fetch(`/api/get-profile-pic?username=${encodeURIComponent(uploaderName)}`);
-    const data = await res.json();
-    profilePic.src = data.url || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
-  } catch (err) {
-    console.warn("Profile picture load failed:", err);
-    profilePic.src = "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
-  }
+  profilePic.src = photoData.uploaderPic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
+  
   
   // Show both containers
   photoViewer.style.display = "block";
@@ -924,8 +918,9 @@ async function loadAccountPage() {
     }
 
     document.getElementById("account-username-display").textContent = user.username;
-    document.getElementById("account-created-date").textContent = new Date(user.createdAt).toLocaleDateString();
-    
+    const createdDate = new Date(user.createdAt);
+    document.getElementById("account-created-date").textContent = createdDate.getDate() + ". " + createdDate.toLocaleString("en", { month: "long" }) + " " + createdDate.getFullYear();
+        
 
     loadUserPhotos();
     loadProfilePicture();

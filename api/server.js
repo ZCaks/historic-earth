@@ -358,26 +358,39 @@ app.get("/api/photos", async (req, res) => {
       files.map(async (file) => {
         try {
           const [metadata] = await file.getMetadata();
-          const { name, year, description, coordinates, category, uploader } = metadata.metadata || {};
-    
-          let parsedCoordinates = null;
-          try {
-            if (coordinates) {
-              parsedCoordinates = JSON.parse(coordinates);
-            }
-          } catch (err) {
-            console.warn("⚠️ Invalid coordinates format:", coordinates);
-          }
-    
-          return {
-            name: name || "Unknown",
-            year: year || "Unknown",
-            description: description || "No description provided.",
-            coordinates: parsedCoordinates,
-            category: category || "complete",
-            uploader: uploader || "Anonymous",
-            url: `https://storage.googleapis.com/${bucketName}/${file.name}`,
-          };
+const { name, year, description, coordinates, category, uploader } = metadata.metadata || {};
+
+let parsedCoordinates = null;
+try {
+  if (coordinates) {
+    parsedCoordinates = JSON.parse(coordinates);
+  }
+} catch (err) {
+  console.warn("⚠️ Invalid coordinates format:", coordinates);
+}
+
+// 🔍 Lookup uploader's profile picture
+let uploaderPic = "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
+
+if (uploader) {
+  const userDoc = await User.findOne({ username: uploader });
+  if (userDoc?.profilePic) {
+    uploaderPic = userDoc.profilePic;
+  }
+}
+
+// ✅ Return updated photo info
+return {
+  name: name || "Unknown",
+  year: year || "Unknown",
+  description: description || "No description provided.",
+  coordinates: parsedCoordinates,
+  category: category || "complete",
+  uploader: uploader || "Anonymous",
+  uploaderPic,
+  url: `https://storage.googleapis.com/${bucketName}/${file.name}`,
+};
+
         } catch (innerErr) {
           console.error("❌ Error reading metadata for file:", file.name, innerErr);
           return null;
