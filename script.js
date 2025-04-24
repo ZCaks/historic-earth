@@ -237,7 +237,8 @@ async function displayPhoto(photoData) {
 
 // Inject moderator buttons
 const modControls = document.getElementById("moderator-controls");
-modControls.innerHTML = "";
+modControls.innerHTML = ""; // 🔥 Always clear old buttons
+modControls.style.display = "none"; // 🔒 Hide by default
 
 const currentUsername = localStorage.getItem("username") || "";
 const isMod = localStorage.getItem("isModerator") === "true";
@@ -248,6 +249,8 @@ editBtn.textContent = "Edit";
 editBtn.type = "button";
 
 if (isMod || isUploader) {
+  modControls.style.display = "flex";
+
   const editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
   editBtn.type = "button";
@@ -262,10 +265,8 @@ if (isMod || isUploader) {
 
   modControls.appendChild(editBtn);
   modControls.appendChild(deleteBtn);
-} else {
-  // Don't show any buttons at all
-  modControls.style.display = "none";
 }
+
 
 
 
