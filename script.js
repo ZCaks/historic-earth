@@ -260,12 +260,19 @@ if (isMod || isUploader) {
 
   editBtn.style.opacity = "0.5";
   deleteBtn.style.opacity = "0.5";
+
   editBtn.style.cursor = "not-allowed";
   deleteBtn.style.cursor = "not-allowed";
+
+  // 🔥 prevent ALL interaction (including clicks and keyboard focus)
+  editBtn.style.pointerEvents = "none";
+  deleteBtn.style.pointerEvents = "none";
 
   editBtn.title = "Only moderators or the uploader can edit this photo.";
   deleteBtn.title = "Only moderators or the uploader can delete this photo.";
 }
+
+
 
 modControls.appendChild(editBtn);
 modControls.appendChild(deleteBtn);
