@@ -243,6 +243,12 @@ const currentUsername = localStorage.getItem("username") || "";
 const isMod = localStorage.getItem("isModerator") === "true";
 const isUploader = (photoData.uploader || "") === currentUsername;
 
+console.log("🔍 MODERATOR?", isMod);
+console.log("🔍 UPLOADER?", isUploader);
+console.log("👤 CURRENT USER:", currentUsername);
+console.log("📷 PHOTO UPLOADER:", photoData.uploader);
+
+
 if (isMod || isUploader) {
   modControls.style.display = "flex";
 
