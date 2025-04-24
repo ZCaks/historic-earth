@@ -11,7 +11,8 @@
     { "src": "account.html", "use": "@vercel/static" },
     { "src": "verify-email.html", "use": "@vercel/static" },
     { "src": "forgot-password.html", "use": "@vercel/static" },
-    { "src": "reset-password.html", "use": "@vercel/static" }
+    { "src": "reset-password.html", "use": "@vercel/static" },
+    { "src": "user.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/server.js" },
@@ -25,6 +26,8 @@
     { "src": "/account.html", "dest": "/account.html" },
     { "src": "/verify-email.html", "dest": "/verify-email.html" },
     { "src": "/forgot-password.html", "dest": "/forgot-password.html" },
-    { "src": "/reset-password.html", "dest": "/reset-password.html" }
+    { "src": "/reset-password.html", "dest": "/reset-password.html" },
+    { "src": "/user.html", "dest": "/user.html" }
+
   ]
 }

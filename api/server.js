@@ -754,6 +754,33 @@ app.get("/api/my-photos", async (req, res) => {
   }
 });
 
+app.get("/api/user-profile", async (req, res) => {
+  const username = req.query.username;
+  if (!username) return res.status(400).json({ error: "Username required" });
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const [files] = await bucket.getFiles();
+    const photos = files.filter(f => f.metadata?.metadata?.uploader === username).map(f => ({
+      url: `https://storage.googleapis.com/${bucketName}/${f.name}`,
+      name: f.metadata.metadata.name || "Untitled"
+    }));
+
+    res.json({
+      username: user.username,
+      createdAt: user.createdAt,
+      profilePic: user.profilePic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png",
+      photos
+    });
+  } catch (err) {
+    console.error("User profile fetch failed:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 // ✅ Delete account + all uploaded photos
 app.delete("/api/delete-account", async (req, res) => {
   if (!req.session?.user) return res.status(401).json({ error: "Not logged in." });

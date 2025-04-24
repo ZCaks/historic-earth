@@ -228,8 +228,15 @@ async function displayPhoto(photoData) {
   document.getElementById("photo-year-display").textContent = photoData.year || "Unknown";
   document.getElementById("photo-description-display").textContent = photoData.description || "No description provided.";
   const uploaderName = photoData.uploader || "Unknown";
-  document.getElementById("photo-uploader-display").textContent = uploaderName;
-  
+  const uploaderDisplay = document.getElementById("photo-uploader-display");
+  uploaderDisplay.textContent = uploaderName;
+  uploaderDisplay.style.cursor = "pointer";
+  uploaderDisplay.style.color = "#007bff";
+  uploaderDisplay.style.textDecoration = "underline";
+  uploaderDisplay.onclick = () => {
+    window.location.href = `user.html?username=${uploaderName}`;
+  };
+    
   const profilePic = document.getElementById("photo-uploader-pic");
   profilePic.src = photoData.uploaderPic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
   
@@ -1095,5 +1102,55 @@ async function loadUserPhotos() {
     }
   } catch (err) {
     console.error("Error loading photos:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.includes("user.html")) {
+    loadPublicUserProfile();
+  }
+});
+
+async function loadPublicUserProfile() {
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get("username");
+  if (!username) {
+    alert("No username specified.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/user-profile?username=${encodeURIComponent(username)}`);
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Failed to load user");
+
+    document.getElementById("account-username-display").textContent = data.username;
+    document.getElementById("account-created-date").textContent = new Date(data.createdAt).toLocaleDateString("en-GB", {
+      day: "numeric", month: "long", year: "numeric"
+    });
+    document.getElementById("profile-pic-preview").src = data.profilePic;
+
+    const container = document.getElementById("user-photos-container");
+    container.innerHTML = "";
+
+    data.photos.forEach(photo => {
+      const img = document.createElement("img");
+      img.src = photo.url;
+      img.alt = photo.name;
+      img.dataset.url = photo.url;
+      img.style.maxWidth = "150px";
+      img.style.margin = "10px";
+      img.style.cursor = "pointer";
+      img.addEventListener("click", () => {
+        localStorage.setItem("highlightPhotoUrl", photo.url);
+        window.location.href = "index.html";
+      });
+      container.appendChild(img);
+    });
+
+  } catch (err) {
+    console.error("Failed to load user profile:", err);
+    alert("Could not load user profile.");
   }
 }

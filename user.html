@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile - Earththen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>User Profile</h1>
+    <nav><a href="index.html">← Back to Map</a></nav>
+  </header>
+
+  <main class="account-container">
+    <section id="profile-section">
+      <h2>Profile Information</h2>
+      <div class="profile-info-flex">
+        <div class="profile-pic-wrapper">
+          <img id="profile-pic-preview" src="" alt="Profile picture" />
+        </div>
+        <div class="profile-details">
+          <p><strong>Username:</strong> <span id="account-username-display">Loading...</span></p>
+          <p><strong>Created:</strong> <span id="account-created-date">Loading...</span></p>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="posts-section">
+      <h2>Uploaded Photos</h2>
+      <div id="user-photos-container"></div>
+    </section>
+  </main>
+
+  <footer id="site-footer">
+    © 2025 Earththen. All rights reserved.
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
