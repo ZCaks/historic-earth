@@ -172,7 +172,7 @@ async function fetchPhotos() {
         map: map,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
-          scale: 8,
+          scale: 4,
           fillColor: markerColor,
           fillOpacity: 0.8,
           strokeWeight: 0,
