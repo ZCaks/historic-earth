@@ -206,7 +206,7 @@ async function fetchPhotos() {
 
 function updateMarkerSizes(zoom) {
   const baseSize = 4;
-  const size = baseSize + zoom * 0.7;
+  const size = baseSize + zoom * 0.5;
 
   markers.forEach(marker => {
     marker.setIcon({
