@@ -176,7 +176,7 @@ async function fetchPhotos() {
         map: map,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
-          scale: 2,
+          scale: 3,
           fillColor: markerColor,
           fillOpacity: 0.7,
           strokeWeight: 0,
@@ -205,7 +205,7 @@ async function fetchPhotos() {
 }
 
 function updateMarkerSizes(zoom) {
-  const baseSize = 2;
+  const baseSize = 3;
   const size = baseSize + zoom * 0.5;
 
   markers.forEach(marker => {
