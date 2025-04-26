@@ -56,7 +56,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <div style="display: flex; flex-wrap: wrap; gap: 20px;">
         <p><strong>Name:</strong> <span id="photo-name-display">None</span></p>
-        <p><strong>Year:</strong> <span id="photo-year-display">Unknown</span></p>
+        <p><strong>Date:</strong> <span id="photo-year-display">Unknown</span></p>
         <div style="display: flex; align-items: center; gap: 8px;">
           <strong>Uploader:</strong>
           <span id="photo-uploader-wrapper">
@@ -90,7 +90,7 @@
       <label class="legend-item">
         <input type="checkbox" id="filterMissingYear" checked>
         <div class="legend-color yellow"></div>
-        <span>Missing Year</span>
+        <span>Missing Date</span>
       </label>
       <label class="legend-item">
         <input type="checkbox" id="filterApproxLocation" checked>
@@ -120,12 +120,12 @@
   <input type="radio" name="year-mode" value="exact" checked> Exact Date
 </label>
 <label>
-  <input type="radio" name="year-mode" value="range"> Year Range
+  <input type="radio" name="year-mode" value="range"> Date Range
 </label>
 
 <!-- 🔹 Exact Date Selection -->
 <div id="exact-date-fields">
-  <label for="photo-year">Year (required):</label>
+  <label for="photo-year">Date (required):</label>
   <input type="number" id="photo-year" placeholder="Year" min="1000" max="2000" />
 
   <label for="photo-month">Month (optional):</label>
