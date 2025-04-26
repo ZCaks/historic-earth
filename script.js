@@ -176,9 +176,9 @@ async function fetchPhotos() {
         map: map,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
-          scale: 4,
+          scale: 2,
           fillColor: markerColor,
-          fillOpacity: 0.8,
+          fillOpacity: 0.7,
           strokeWeight: 0,
         },
       });
@@ -205,7 +205,7 @@ async function fetchPhotos() {
 }
 
 function updateMarkerSizes(zoom) {
-  const baseSize = 4;
+  const baseSize = 2;
   const size = baseSize + zoom * 0.5;
 
   markers.forEach(marker => {
@@ -213,7 +213,7 @@ function updateMarkerSizes(zoom) {
       path: google.maps.SymbolPath.CIRCLE,
       scale: size,
       fillColor: marker.categoryColor || "orange",
-      fillOpacity: 0.8,
+      fillOpacity: 0.7,
       strokeWeight: 0,
     });
   });
@@ -650,7 +650,7 @@ function selectUploadLocation(latLng) {
       path: google.maps.SymbolPath.CIRCLE,
       scale: 8,
       fillColor: "red",
-      fillOpacity: 0.9,
+      fillOpacity: 0.7,
       strokeWeight: 0
     }
   });
@@ -743,7 +743,7 @@ function setEditLocation(latLng) {
       path: google.maps.SymbolPath.CIRCLE,
       scale: 8,
       fillColor: "red",
-      fillOpacity: 0.9,
+      fillOpacity: 0.7,
       strokeWeight: 0
     }
   });
