@@ -178,7 +178,7 @@ async function fetchPhotos() {
           path: google.maps.SymbolPath.CIRCLE,
           scale: 3,
           fillColor: markerColor,
-          fillOpacity: 0.7,
+          fillOpacity: 0.5,
           strokeWeight: 0,
         },
       });
@@ -213,7 +213,7 @@ function updateMarkerSizes(zoom) {
       path: google.maps.SymbolPath.CIRCLE,
       scale: size,
       fillColor: marker.categoryColor || "orange",
-      fillOpacity: 0.7,
+      fillOpacity: 0.5,
       strokeWeight: 0,
     });
   });
