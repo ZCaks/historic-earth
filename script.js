@@ -31,6 +31,10 @@ function initMap() {
     }
   });
   
+  map.addListener('zoom_changed', () => {
+    const zoom = map.getZoom();
+    updateMarkerSizes(zoom);
+  });  
 
   const toggleUploadButton = document.getElementById("toggle-upload-button");
   if (toggleUploadButton) {
@@ -198,6 +202,21 @@ async function fetchPhotos() {
   } catch (error) {
     console.error("Error fetching photos:", error);
   }
+}
+
+function updateMarkerSizes(zoom) {
+  const baseSize = 4;
+  const size = baseSize + zoom * 0.7;
+
+  markers.forEach(marker => {
+    marker.setIcon({
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: size,
+      fillColor: marker.categoryColor || "orange",
+      fillOpacity: 0.8,
+      strokeWeight: 0,
+    });
+  });
 }
 
 
