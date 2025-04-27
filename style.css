@@ -524,7 +524,7 @@ form p {
 #header-right {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 20px;
   flex-grow: 1; /* 🔥 allow it to expand! */
 }
 
@@ -631,7 +631,7 @@ form p {
 #header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
 }
 
 #header-right {
