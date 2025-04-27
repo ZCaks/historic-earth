@@ -591,7 +591,7 @@ form p {
   padding: 0 15px;
   font-size: 14px;
   border: 1px solid #ccc;
-  border-right: none;
+  border-right: 20px;
   border-radius: 5px 0 0 5px;
   width: 300px;
   box-sizing: border-box; /* <<< add this to force correct height */
