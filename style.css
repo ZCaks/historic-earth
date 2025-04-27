@@ -632,13 +632,26 @@ form p {
 #header-right {
   display: flex;
   align-items: center;
-  gap: 50px; /* 🔥 bigger gap between year-filter and search bar */
+  justify-content: center; /* 🔥 add this */
+  gap: 50px;
+  width: 100%; /* 🔥 add this */
 }
+
+#year-filter-bar, #search-bar {
+  flex: 0 1 auto; /* 🔥 allow them to shrink nicely if needed */
+}
+
 
 #year-filter-bar {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+header * {
+  line-height: normal;
+  margin: 0;
+  padding: 0;
 }
 
 
