@@ -581,6 +581,7 @@ form p {
   display: flex;
   align-items: center; /* ✅ vertically center the year inputs and search inputs inside */
   gap: 10px;
+  height: 40px; /* ✅ ADD this */
 }
 
 
