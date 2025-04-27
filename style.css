@@ -594,8 +594,11 @@ form p {
   width: 300px;
   max-width: 100%;
   box-sizing: border-box;
-  line-height: 40px; /* ✅ fix vertical centering inside */
+
+  line-height: normal; /* 🔥 THIS must be normal */
+  vertical-align: middle; /* 🔥 Align perfectly with the button */
 }
+
 
 
 
