@@ -180,8 +180,8 @@ main.viewer-container {
 .controls {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0 20px; /* ✅ Adds horizontal space on both sides */
+  gap: 10px;
+  padding: 10px 20px; /* ✅ Adds horizontal space on both sides */
   margin-top: 10px;
   box-sizing: border-box;
 }
@@ -529,6 +529,32 @@ form p {
   pointer-events: none;
   cursor: not-allowed !important;
   opacity: 0.5;
+}
+
+.header-button {
+  background-color: #007bff; /* nice blue */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  height: 40px; /* consistent height */
+}
+
+.header-button:hover {
+  background-color: #0056b3;
+}
+
+input[type="text"],
+input[type="number"],
+#search-input,
+#year-start,
+#year-end {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 5px;
 }
 
 
