@@ -636,8 +636,8 @@ form p {
 
 #header-right {
   display: flex;
-  align-items: center;
-  gap: 50px; /* 🔥 bigger gap between year-filter and search bar */
+  align-items: end;
+  gap: 30px; /* 🔥 bigger gap between year-filter and search bar */
 }
 
 #year-filter-bar {
