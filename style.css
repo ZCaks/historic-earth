@@ -576,6 +576,7 @@ form p {
   background-color: #0056b3;
 }
 
+
 #year-filter-bar,
 #search-bar {
   display: flex;
@@ -585,6 +586,12 @@ form p {
 }
 
 
+#year-filter-bar label {
+  font-size: 14px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
 
 #search-input {
   height: 40px; /* ✅ THIS is needed */
