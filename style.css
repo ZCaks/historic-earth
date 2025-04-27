@@ -593,7 +593,7 @@ form p {
   font-size: 14px;
   align-items: center;
   border: 1px solid #ccc;
-  border-right: none;
+  border-right: 20px;
   border-radius: 5px 0 0 5px;
   width: 300px;
 }
