@@ -588,6 +588,10 @@ form p {
   flex-shrink: 0; /* ✅ Do not shrink */
 }
 
+#search-bar input,
+#search-bar button {
+  height: 100%;
+}
 
 
 #year-filter-bar label {
