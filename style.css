@@ -588,6 +588,8 @@ form p {
   gap: 10px;
   flex-grow: 1; /* 🔥 expand */
   justify-content: center; /* 🔥 center the input and button */
+  margin: 0; /* remove outside margin */
+  padding: 0; /* remove inside padding */
 }
 
 
