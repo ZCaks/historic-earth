@@ -233,7 +233,7 @@ header {
   min-height: 40px; /* 🔥 make sure it's not smaller than the buttons */
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px 20px;
   gap: 30px;
 }
 
@@ -578,6 +578,7 @@ form p {
 
 #year-filter-bar,
 #search-bar {
+  display: flex;
   align-items: center; /* ✅ vertically center the year inputs and search inputs inside */
   gap: 10px;
 }
