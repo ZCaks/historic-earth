@@ -583,9 +583,10 @@ form p {
 #search-bar {
   display: flex;
   align-items: center;
-  gap: 15px; /* 🔥 slightly bigger gap */
+  gap: 20px; /* 🔥 BIGGER gap between input and button */
   height: 40px;
 }
+
 
 
 #search-input {
@@ -593,12 +594,12 @@ form p {
   padding: 0 15px;
   font-size: 14px;
   border: 1px solid #ccc;
-  border-right: none;
-  border-radius: 5px 0 0 5px;
-  width: 250px; /* 🔥 shrink width to prevent cutoff */
+  border-radius: 5px;
+  width: 300px; /* 🔥 Full nice width */
   max-width: 100%;
   box-sizing: border-box;
 }
+
 
 
 
@@ -610,10 +611,11 @@ form p {
   background-color: #007bff;
   color: white;
   border: 1px solid #ccc;
-  border-radius: 0 5px 5px 0;
+  border-radius: 5px;
   cursor: pointer;
   box-sizing: border-box;
 }
+
 
 
 
