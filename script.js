@@ -455,12 +455,14 @@ function updateVisibleMarkers() {
     let showMarker = visibleCategories.includes(marker.categoryColor);
 
     if (startYear !== null && endYear !== null) {
-      if (markerYear === null) {
-        // Hide yellow and green tags (missing data) when year filter is active
-        if (marker.categoryColor === "yellow" || marker.categoryColor === "darkgreen") {
+      if (marker.categoryColor === "yellow" || marker.categoryColor === "darkgreen") {
+        showMarker = false;
+      } else if (markerYear !== null) {
+        if (markerYear < startYear || markerYear > endYear) {
           showMarker = false;
         }
-      } else {
+      }
+       else {
         if (markerYear < startYear || markerYear > endYear) {
           showMarker = false;
         }
