@@ -278,34 +278,6 @@ nav {
   display: block;
 }
 
-#search-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#search-input {
-  width: 300px;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-#search-button {
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#search-button:hover {
-  background-color: #0056b3;
-}
-
 h1 {
   margin: 0;
 }
@@ -549,13 +521,7 @@ form p {
 input[type="text"],
 input[type="number"],
 #search-input,
-#year-start,
-#year-end {
-  height: 40px;
-  padding: 0 10px;
-  font-size: 14px;
-  border-radius: 5px;
-}
+
 
 .header-right {
   display: flex;
@@ -578,21 +544,6 @@ input[type="number"],
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100px;
-}
-
-#year-filter-button {
-  height: 100%;
-  padding: 0 20px;
-  font-size: 14px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#year-filter-button:hover {
-  background-color: #0056b3;
 }
 
 #search-bar {
