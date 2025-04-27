@@ -632,14 +632,14 @@ form p {
 #header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 50px;
   flex-shrink: 0;
 }
 
 
 #header-right {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: flex-end;
   gap: 20px;
   flex-grow: 1;
