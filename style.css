@@ -546,7 +546,7 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 50px; /* ← tighter inside the tool groups */
+  gap: 100px; /* ← tighter inside the tool groups */
 }
 
 #year-filter-bar {
