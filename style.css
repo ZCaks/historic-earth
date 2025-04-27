@@ -633,7 +633,7 @@ form p {
 #header-left {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 150px;
   flex-shrink: 0;
 }
 
