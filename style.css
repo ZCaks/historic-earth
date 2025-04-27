@@ -584,7 +584,6 @@ form p {
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 40px; /* force the same height as other header tools */
 }
 
 
