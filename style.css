@@ -583,20 +583,23 @@ form p {
 #search-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px; /* 🔥 slightly bigger gap */
+  height: 40px;
 }
 
 
 #search-input {
-  height: 40px; /* 🔥 match the search bar to the year input height */
+  height: 40px;
   padding: 0 15px;
   font-size: 14px;
-  align-items: center;
   border: 1px solid #ccc;
-  border-right: 20px;
+  border-right: none;
   border-radius: 5px 0 0 5px;
-  width: 300px;
+  width: 250px; /* 🔥 shrink width to prevent cutoff */
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 
 
 
@@ -607,10 +610,11 @@ form p {
   background-color: #007bff;
   color: white;
   border: 1px solid #ccc;
-  border-radius: 5px; /* ⬅️ Full normal rounded */
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
   box-sizing: border-box;
 }
+
 
 
 
