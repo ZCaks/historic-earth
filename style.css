@@ -593,6 +593,10 @@ form p {
   height: 100%;
 }
 
+#search-bar {
+  background-color: transparent; /* 🔥 REMOVE brown background from search-bar */
+  padding: 0; /* 🔥 remove any padding that misaligns the input */
+}
 
 #year-filter-bar label {
   font-size: 14px;
