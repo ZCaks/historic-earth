@@ -582,10 +582,10 @@ form p {
 
 #search-bar {
   display: flex;
-  align-items: center;
-  gap: 10px; /* ⬅️ YES! Give 10px space between search input and button */
-  height: 40px;
+  align-items: flex-end; /* 🔥 lower the search bar to the same line */
+  gap: 10px;
 }
+
 
 
 #search-input {
