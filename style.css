@@ -633,6 +633,11 @@ form p {
   gap: 10px;
 }
 
+input,
+button {
+  vertical-align: middle;
+}
+
 
 @media (prefers-color-scheme: dark) {
   body, html {
