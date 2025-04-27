@@ -229,10 +229,12 @@ img {
 
 header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  align-items: center;
+  padding: 10px 30px;
+  gap: 30px;
 }
+
 
 
 nav {
@@ -607,6 +609,24 @@ form p {
 
 #search-button:hover {
   background-color: #0056b3;
+}
+
+#header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#year-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 
