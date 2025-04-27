@@ -586,6 +586,7 @@ form p {
 
 
 #search-input {
+  height: 40px; /* ✅ THIS is needed */
   padding: 0 10px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -593,10 +594,10 @@ form p {
   width: 300px;
   max-width: 100%;
   box-sizing: border-box;
-
-  line-height: normal; /* 🔥 THIS must be normal */
-  vertical-align: middle; /* 🔥 Align perfectly with the button */
+  line-height: normal; /* 🔥 keep normal */
+  vertical-align: middle; /* 🔥 perfect alignment */
 }
+
 
 
 
