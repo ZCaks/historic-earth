@@ -584,15 +584,7 @@ form p {
   background-color: #0056b3;
 }
 
-#year-filter-bar{
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-grow: 0; /* ✅ Do NOT stretch */
-  justify-content: center; /* ✅ Keep input + button centered */
-}
-
-
+#year-filter-bar,
 #search-bar {
   display: flex;
   align-items: center;
@@ -666,6 +658,19 @@ button {
   vertical-align: middle;
 }
 
+/* Fix for orange margins around search bar */
+#search-bar {
+  margin: 0 !important; /* Remove all margins */
+  padding: 0 !important; /* Remove all padding */
+  outline: none !important; /* Remove focus outlines */
+  border: none !important; /* Remove borders */
+}
+
+#search-input {
+  background-color: white !important; /* Force white background */
+  border: 1px solid #ccc !important; /* Simple gray border */
+  margin: 0 !important; /* Remove margins */
+}
 
 @media (prefers-color-scheme: dark) {
   body, html {
