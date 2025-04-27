@@ -548,13 +548,7 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 100px; /* ← tighter inside the tool groups */
-}
-
-#year-filter-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* ← small gap between "From:", input, "To:", input, Filter button */
+  gap: 50px; /* ← tighter inside the tool groups */
 }
 
 #year-start,
@@ -582,11 +576,11 @@ form p {
   background-color: #0056b3;
 }
 
+#year-filter-bar,
 #search-bar {
   display: flex;
-  align-items: center;
-  gap: 20px; /* 🔥 BIGGER gap between input and button */
-  height: 40px;
+  align-items: center; /* ✅ vertically center the year inputs and search inputs inside */
+  gap: 10px;
 }
 
 
