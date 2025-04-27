@@ -579,8 +579,7 @@ form p {
 }
 
 
-#year-filter-bar,
-#search-bar {
+#year-filter-bar {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -593,10 +592,6 @@ form p {
   height: 100%;
 }
 
-#search-bar {
-  background-color: transparent; /* 🔥 REMOVE brown background from search-bar */
-  padding: 0; /* 🔥 remove any padding that misaligns the input */
-}
 
 #year-filter-bar label {
   font-size: 14px;
@@ -619,8 +614,16 @@ form p {
 }
 
 
-
-
+#search-input {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
 
 #search-button {
   height: 40px;
@@ -633,6 +636,7 @@ form p {
   cursor: pointer;
   box-sizing: border-box;
 }
+
 
 #search-button:hover {
   background-color: #0056b3;
