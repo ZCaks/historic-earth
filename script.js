@@ -440,8 +440,11 @@ function setupLegendFilters() {
 
 
 function updateVisibleMarkers() {
-  const startYear = parseInt(document.getElementById("year-start").value) || null;
-  const endYear = parseInt(document.getElementById("year-end").value) || null;
+  const startYearInput = document.getElementById("year-start").value.trim();
+  const endYearInput = document.getElementById("year-end").value.trim();
+
+  const startYear = startYearInput ? parseInt(startYearInput) : null;
+  const endYear = endYearInput ? parseInt(endYearInput) : null;
 
   const visibleCategories = [];
   if (document.getElementById("filterComplete").checked) visibleCategories.push("orange");
@@ -454,16 +457,12 @@ function updateVisibleMarkers() {
     const markerYear = marker.year ? parseInt(marker.year.substring(0, 4)) : null;
     let showMarker = visibleCategories.includes(marker.categoryColor);
 
-    if (startYear !== null && endYear !== null) {
+    // If any year filter is applied
+    if (startYear !== null || endYear !== null) {
       if (marker.categoryColor === "yellow" || marker.categoryColor === "darkgreen") {
         showMarker = false;
       } else if (markerYear !== null) {
-        if (markerYear < startYear || markerYear > endYear) {
-          showMarker = false;
-        }
-      }
-       else {
-        if (markerYear < startYear || markerYear > endYear) {
+        if ((startYear !== null && markerYear < startYear) || (endYear !== null && markerYear > endYear)) {
           showMarker = false;
         }
       }
@@ -472,6 +471,7 @@ function updateVisibleMarkers() {
     marker.setMap(showMarker ? map : null);
   });
 }
+
 
 
 
