@@ -229,6 +229,8 @@ img {
 
 header {
   display: flex;
+  height: auto; /* 🔥 allow it to wrap neatly around the content */
+  min-height: 40px; /* 🔥 make sure it's not smaller than the buttons */
   justify-content: space-between;
   align-items: center;
   padding: 10px 30px;
@@ -545,6 +547,7 @@ form p {
 
 #header-tools {
   display: flex;
+  height: 40px; /* 🔥 make #header-tools same height as buttons */
   align-items: center;
   gap: 100px; /* ← tighter inside the tool groups */
 }
