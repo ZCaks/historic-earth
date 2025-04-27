@@ -632,14 +632,19 @@ form p {
 #header-left {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 10px;
+  flex-shrink: 0;
 }
+
 
 #header-right {
   display: flex;
-  align-items: end;
-  gap: 30px; /* 🔥 bigger gap between year-filter and search bar */
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  flex-grow: 1;
 }
+
 
 #year-filter-bar {
   display: flex;
