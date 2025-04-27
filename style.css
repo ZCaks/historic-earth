@@ -229,13 +229,13 @@ img {
 
 header {
   display: flex;
-  height: auto; /* 🔥 allow it to wrap neatly around the content */
-  min-height: 40px; /* 🔥 make sure it's not smaller than the buttons */
+  height: 60px; /* ✅ FIX: Set exact height */
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10px;
+  padding: 0 10px; /* ✅ FIX: only horizontal padding */
   gap: 30px;
 }
+
 
 
 
