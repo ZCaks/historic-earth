@@ -552,7 +552,7 @@ form p {
   align-items: center;
   gap: 50px;
   width: 100%; /* 🔥 full width */
-  justify-content: flex-start; /* 🔥 align content to the left */
+  justify-content: flex-end; /* 🔥 align content to the left */
 }
 
 
