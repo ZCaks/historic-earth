@@ -557,6 +557,76 @@ input[type="number"],
   border-radius: 5px;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#year-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+}
+
+#year-start,
+#year-end {
+  height: 100%;
+  padding: 0 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100px;
+}
+
+#year-filter-button {
+  height: 100%;
+  padding: 0 20px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#year-filter-button:hover {
+  background-color: #0056b3;
+}
+
+#search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 40px;
+}
+
+#search-input {
+  height: 100%;
+  padding: 0 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  width: 300px;
+}
+
+#search-button {
+  height: 100%;
+  padding: 0 20px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+#search-button:hover {
+  background-color: #0056b3;
+}
+
 
 @media (prefers-color-scheme: dark) {
   body, html {
