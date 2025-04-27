@@ -229,13 +229,13 @@ img {
 
 header {
   display: flex;
-  height: 60px; /* ✅ FIX: Set exact height */
+  height: auto; /* 🔥 allow it to wrap neatly around the content */
+  min-height: 40px; /* 🔥 make sure it's not smaller than the buttons */
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px; /* ✅ FIX: only horizontal padding */
+  padding: 10px 10px;
   gap: 30px;
 }
-
 
 
 
@@ -548,10 +548,8 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 50px;
-  flex-wrap: wrap; /* ✅ allow wrapping */
+  gap: 50px; /* ← tighter inside the tool groups */
 }
-
 
 #year-start,
 #year-end {
@@ -578,40 +576,13 @@ form p {
   background-color: #0056b3;
 }
 
-
-#year-filter-bar {
+#year-filter-bar,
+#search-bar {
   display: flex;
-  align-items: center;
+  align-items: center; /* ✅ vertically center the year inputs and search inputs inside */
   gap: 10px;
-  height: 40px;
-  flex-shrink: 0; /* ✅ Do not shrink */
 }
 
-#search-bar input,
-#search-bar button {
-  height: 100%;
-}
-
-
-#year-filter-bar label {
-  font-size: 14px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-}
-
-#search-input {
-  height: 40px; /* ✅ THIS is needed */
-  padding: 0 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 300px;
-  max-width: 100%;
-  box-sizing: border-box;
-  line-height: normal; /* 🔥 keep normal */
-  vertical-align: middle; /* 🔥 perfect alignment */
-}
 
 
 #search-input {
@@ -623,7 +594,13 @@ form p {
   width: 300px;
   max-width: 100%;
   box-sizing: border-box;
+
+  line-height: normal; /* 🔥 THIS must be normal */
+  vertical-align: middle; /* 🔥 Align perfectly with the button */
 }
+
+
+
 
 #search-button {
   height: 40px;
@@ -636,7 +613,6 @@ form p {
   cursor: pointer;
   box-sizing: border-box;
 }
-
 
 #search-button:hover {
   background-color: #0056b3;
@@ -651,11 +627,8 @@ form p {
 #header-right {
   display: flex;
   align-items: center;
-  gap: 50px;
-  flex-wrap: wrap; /* ✅ allow wrapping */
-  justify-content: flex-end; /* ✅ align to the right side */
+  gap: 50px; /* 🔥 bigger gap between year-filter and search bar */
 }
-
 
 #year-filter-bar {
   display: flex;
