@@ -592,6 +592,7 @@ form p {
   height: 40px; /* 🔥 match the search bar to the year input height */
   padding: 0 15px;
   font-size: 14px;
+  align-items: center;
   border: 1px solid #ccc;
   border-right: none;
   border-radius: 5px 0 0 5px;
