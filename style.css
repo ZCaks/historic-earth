@@ -550,10 +550,11 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 50px;
-  width: 100%; /* 🔥 full width */
-  justify-content: flex-end; /* 🔥 align content to the left */
+  gap: 10px; /* smaller gap is better */
+  justify-content: flex-end;
+  flex-grow: 1; /* 🔥 allow it to expand if needed, but not force width */
 }
+
 
 
 #year-start,
