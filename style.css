@@ -667,7 +667,6 @@ button {
 }
 
 #search-input {
-  background-color: white !important; /* Force white background */
   border: 1px solid #ccc !important; /* Simple gray border */
   margin: 0 !important; /* Remove margins */
 }
