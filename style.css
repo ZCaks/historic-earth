@@ -582,7 +582,6 @@ form p {
 
 #search-bar {
   display: flex;
-  align-items: flex-end; /* Move whole search-bar DOWN */
   align-items: center;
   gap: 10px;
   height: 40px; /* force the same height as other header tools */
