@@ -525,7 +525,8 @@ form p {
   display: flex;
   align-items: center;
   gap: 20px;
-  flex-grow: 1; /* 🔥 allow it to expand! */
+  justify-content: flex-end; /* ✅ keeps content on right */
+  flex-grow: 0; /* ❌ no unwanted growth */
 }
 
 
