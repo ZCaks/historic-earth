@@ -587,17 +587,16 @@ form p {
 
 #search-input {
   height: 40px;
-  padding: 0 10px; /* 🔥 SAME padding as year-start/year-end */
+  padding: 0 10px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 300px;
   max-width: 100%;
   box-sizing: border-box;
-  line-height: normal;
-  padding: 0 10px;
-
+  line-height: 40px; /* ✅ fix vertical centering inside */
 }
+
 
 
 #search-button {
