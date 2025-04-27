@@ -466,20 +466,16 @@ function updateVisibleMarkers() {
     const markerYear = marker.year ? parseInt(marker.year.substring(0, 4)) : null;
     let showMarker = visibleCategories.includes(marker.categoryColor);
 
-    // If any year filter is applied
-    if (startYear !== null || endYear !== null) {
-      if (marker.categoryColor === "yellow" || marker.categoryColor === "darkgreen") {
+    if (startYear !== null || endYear !== null && markerYear !== null) {
+      if ((startYear !== null && markerYear < startYear) || (endYear !== null && markerYear > endYear)) {
         showMarker = false;
-      } else if (markerYear !== null) {
-        if ((startYear !== null && markerYear < startYear) || (endYear !== null && markerYear > endYear)) {
-          showMarker = false;
-        }
       }
     }
 
     marker.setMap(showMarker ? map : null);
   });
 }
+
 
 
 
