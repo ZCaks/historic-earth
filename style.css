@@ -606,7 +606,7 @@ form p {
   background-color: #007bff;
   color: white;
   border: 1px solid #ccc; /* <<< add border for consistency */
-  border-left: none; /* <<< remove left border to merge with input */
+  border-left: 20px; /* <<< remove left border to merge with input */
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   box-sizing: border-box; /* <<< force height respect */
