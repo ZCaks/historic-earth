@@ -433,9 +433,18 @@ function setupLegendFilters() {
   const yearFilterButton = document.getElementById("year-filter-button");
   if (yearFilterButton) {
     yearFilterButton.addEventListener("click", () => {
+      const startYearInput = document.getElementById("year-start").value.trim();
+      const endYearInput = document.getElementById("year-end").value.trim();
+  
+      if (startYearInput || endYearInput) {
+        document.getElementById("filterMissingYear").checked = false;
+        document.getElementById("filterMultipleMissing").checked = false;
+      }
+  
       updateVisibleMarkers();
     });
   }
+  
 }
 
 
