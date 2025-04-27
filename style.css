@@ -548,8 +548,10 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 50px; /* ← tighter inside the tool groups */
+  gap: 50px;
+  flex-wrap: wrap; /* ✅ allow wrapping */
 }
+
 
 #year-start,
 #year-end {
@@ -580,10 +582,12 @@ form p {
 #year-filter-bar,
 #search-bar {
   display: flex;
-  align-items: center; /* ✅ vertically center the year inputs and search inputs inside */
+  align-items: center;
   gap: 10px;
-  height: 40px; /* ✅ ADD this */
+  height: 40px;
+  flex-shrink: 0; /* ✅ Do not shrink */
 }
+
 
 
 #year-filter-bar label {
@@ -635,8 +639,11 @@ form p {
 #header-right {
   display: flex;
   align-items: center;
-  gap: 50px; /* 🔥 bigger gap between year-filter and search bar */
+  gap: 50px;
+  flex-wrap: wrap; /* ✅ allow wrapping */
+  justify-content: flex-end; /* ✅ align to the right side */
 }
+
 
 #year-filter-bar {
   display: flex;
