@@ -522,7 +522,7 @@ form p {
 #header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 50px; /* ← wider gap between year filter and search */
 }
 
 
@@ -546,13 +546,13 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 30px; /* ← tighter inside the tool groups */
 }
 
 #year-filter-bar {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px; /* ← small gap between "From:", input, "To:", input, Filter button */
 }
 
 #year-start,
@@ -583,9 +583,8 @@ form p {
 #search-bar {
   display: flex;
   align-items: center;
-  height: 40px;
+  gap: 10px; /* ← tiny gap between search input and search button */
 }
-
 #search-input {
   height: 100%;
   padding: 0 15px;
