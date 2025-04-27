@@ -583,19 +583,21 @@ form p {
 #search-bar {
   display: flex;
   align-items: center;
-  gap: 20px; /* 🔥 no gap between search input and search button */
+  gap: 10px; /* ⬅️ YES! Give 10px space between search input and button */
+  height: 40px;
 }
 
+
 #search-input {
-  height: 40px; /* <<< NOT 100% anymore */
+  height: 40px;
   padding: 0 15px;
   font-size: 14px;
   border: 1px solid #ccc;
-  border-right: 20px;
-  border-radius: 5px 0 0 5px;
-  width: 300px;
-  box-sizing: border-box; /* <<< add this to force correct height */
+  border-radius: 5px; /* ⬅️ Normal rounded */
+  width: 250px;
+  box-sizing: border-box;
 }
+
 
 
 
@@ -605,12 +607,12 @@ form p {
   font-size: 14px;
   background-color: #007bff;
   color: white;
-  border: 1px solid #ccc; /* <<< add border for consistency */
-  border-left: 20px; /* <<< remove left border to merge with input */
-  border-radius: 0 5px 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px; /* ⬅️ Full normal rounded */
   cursor: pointer;
-  box-sizing: border-box; /* <<< force height respect */
+  box-sizing: border-box;
 }
+
 
 
 
