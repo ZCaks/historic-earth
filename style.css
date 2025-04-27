@@ -551,7 +551,7 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 150px;
+  gap: 250px;
   justify-content: flex-end; /* ✅ push it to right, but no stretching */
   flex-grow: 0;
 }
