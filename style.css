@@ -551,10 +551,11 @@ form p {
 #header-tools {
   display: flex;
   align-items: center;
-  gap: 10px; /* smaller gap is better */
-  justify-content: flex-end;
-  flex-grow: 1; /* 🔥 allow it to expand if needed, but not force width */
+  gap: 10px;
+  justify-content: flex-end; /* ✅ push it to right, but no stretching */
+  flex-grow: 0;
 }
+
 
 
 
@@ -588,11 +589,10 @@ form p {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-grow: 1; /* 🔥 expand */
-  justify-content: center; /* 🔥 center the input and button */
-  margin: 0; /* remove outside margin */
-  padding: 0; /* remove inside padding */
+  flex-grow: 0; /* ✅ Do NOT stretch */
+  justify-content: center; /* ✅ Keep input + button centered */
 }
+
 
 
 
