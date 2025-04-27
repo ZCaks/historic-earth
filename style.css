@@ -584,7 +584,15 @@ form p {
   background-color: #0056b3;
 }
 
-#year-filter-bar,
+#year-filter-bar{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-grow: 0; /* ✅ Do NOT stretch */
+  justify-content: center; /* ✅ Keep input + button centered */
+}
+
+
 #search-bar {
   display: flex;
   align-items: center;
