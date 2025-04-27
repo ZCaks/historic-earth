@@ -185,6 +185,7 @@ async function fetchPhotos() {
 
       marker.photoUrl = photo.url; // ✅ Store URL for lookup
 
+      marker.year = photo.year || null;
 
       marker.categoryColor = markerColor;
       markers.push(marker);
@@ -424,25 +425,52 @@ function setupLegendFilters() {
 
     if (checkbox) {
       checkbox.addEventListener("change", () => {
-        const visibleCategories = Object.keys(legendFilters)
-          .filter((id) => document.getElementById(id).checked)
-          .map((id) => legendFilters[id]);
-
-        updateVisibleMarkers(visibleCategories);
+        updateVisibleMarkers();
       });
     }
   });
+
+  const yearFilterButton = document.getElementById("year-filter-button");
+  if (yearFilterButton) {
+    yearFilterButton.addEventListener("click", () => {
+      updateVisibleMarkers();
+    });
+  }
 }
 
-function updateVisibleMarkers(visibleCategories) {
+
+function updateVisibleMarkers() {
+  const startYear = parseInt(document.getElementById("year-start").value) || null;
+  const endYear = parseInt(document.getElementById("year-end").value) || null;
+
+  const visibleCategories = [];
+  if (document.getElementById("filterComplete").checked) visibleCategories.push("orange");
+  if (document.getElementById("filterMissingYear").checked) visibleCategories.push("yellow");
+  if (document.getElementById("filterApproxLocation").checked) visibleCategories.push("darkblue");
+  if (document.getElementById("filterMultipleMissing").checked) visibleCategories.push("darkgreen");
+  if (document.getElementById("filterSelectedLocation").checked) visibleCategories.push("red");
+
   markers.forEach((marker) => {
-    if (visibleCategories.includes(marker.categoryColor)) {
-      marker.setMap(map);
-    } else {
-      marker.setMap(null);
+    const markerYear = marker.year ? parseInt(marker.year.substring(0, 4)) : null;
+    let showMarker = visibleCategories.includes(marker.categoryColor);
+
+    if (startYear !== null && endYear !== null) {
+      if (markerYear === null) {
+        // Hide yellow and green tags (missing data) when year filter is active
+        if (marker.categoryColor === "yellow" || marker.categoryColor === "darkgreen") {
+          showMarker = false;
+        }
+      } else {
+        if (markerYear < startYear || markerYear > endYear) {
+          showMarker = false;
+        }
+      }
     }
+
+    marker.setMap(showMarker ? map : null);
   });
 }
+
 
 
 function setupAuthentication() {
