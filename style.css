@@ -583,7 +583,7 @@ form p {
 #search-bar {
   display: flex;
   align-items: center;
-  gap: 0px; /* 🔥 no gap between search input and search button */
+  gap: 20px; /* 🔥 no gap between search input and search button */
 }
 
 #search-input {
