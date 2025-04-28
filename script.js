@@ -168,9 +168,10 @@ async function fetchPhotos() {
     
       // ✅ Skip if coordinates missing
       if (!photo.coordinates || !photo.coordinates.lat || !photo.coordinates.lng) {
-        console.warn("Skipping photo due to missing coordinates:", photo);
-        return;
+        // Skipping non-map photo (like profile picture)
+        return; // ✅ Skip if coordinates are missing
       }
+      
     
 
       const position = {
