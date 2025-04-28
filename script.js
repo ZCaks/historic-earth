@@ -160,10 +160,18 @@ async function fetchPhotos() {
     console.log("Fetched Photos:", photos);
 
     photos.forEach((photo) => {
+      // ✅ Skip obvious profile pictures
+      if (photo.url && photo.url.includes("profile")) {
+        console.log("Skipping profile picture:", photo.url);
+        return;
+      }
+    
+      // ✅ Skip if coordinates missing
       if (!photo.coordinates || !photo.coordinates.lat || !photo.coordinates.lng) {
         console.warn("Skipping photo due to missing coordinates:", photo);
-        return; // ✅ Skip if coordinates are missing
+        return;
       }
+    
 
       const position = {
         lat: parseFloat(photo.coordinates.lat),
