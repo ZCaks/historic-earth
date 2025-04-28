@@ -491,7 +491,7 @@ function updateVisibleMarkers() {
 
 
 function setupAuthentication() {
- // console.log("Script loaded and running!");
+  console.log("Script loaded and running!");
 
   const loginForm = document.getElementById("login-form");
   const signupForm = document.getElementById("signup-form");
