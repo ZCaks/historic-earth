@@ -407,52 +407,6 @@ return {
   }
 });
 
-app.post("/api/fix-categories-once", async (req, res) => {
-  try {
-    const [files] = await bucket.getFiles();
-    const updatePromises = [];
-
-    for (const file of files) {
-      const [metadata] = await file.getMetadata();
-      const currentMeta = metadata.metadata || {};
-
-      // Parse coordinates properly
-      let coordsExist = false;
-      if (currentMeta.coordinates) {
-        try {
-          const coords = JSON.parse(currentMeta.coordinates);
-          if (coords.lat && coords.lng) {
-            coordsExist = true;
-          }
-        } catch (err) {
-          coordsExist = false;
-        }
-      }
-
-      const hasYear = !!currentMeta.year && currentMeta.year !== "Unknown";
-
-      let newCategory = "complete";
-      if (!hasYear && !coordsExist) newCategory = "multiple_missing";
-      else if (!hasYear) newCategory = "missing_year";
-      else if (!coordsExist) newCategory = "approx_location";
-
-      updatePromises.push(file.setMetadata({
-        metadata: {
-          ...currentMeta,
-          category: newCategory
-        }
-      }));
-    }
-
-    await Promise.all(updatePromises);
-
-    res.json({ message: "✅ All photo categories corrected safely!" });
-
-  } catch (err) {
-    console.error("Error fixing categories:", err);
-    res.status(500).json({ error: "Failed to fix categories." });
-  }
-});
 
 
 
