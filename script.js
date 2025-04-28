@@ -162,9 +162,10 @@ async function fetchPhotos() {
     photos.forEach((photo) => {
       // ✅ Skip obvious profile pictures
       if (photo.url && photo.url.includes("profile")) {
-        console.log("Skipping profile picture:", photo.url);
+        // Skipping profile picture, no need to log.
         return;
       }
+    
     
       // ✅ Skip if coordinates missing
       if (!photo.coordinates || !photo.coordinates.lat || !photo.coordinates.lng) {
