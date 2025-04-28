@@ -407,6 +407,38 @@ return {
   }
 });
 
+// 🔥 Temporary route to fix all old categories
+app.post("/api/fix-categories-once", async (req, res) => {
+  try {
+    const [files] = await bucket.getFiles();
+    for (const file of files) {
+      const [metadata] = await file.getMetadata();
+      const currentMeta = metadata.metadata || {};
+
+      const year = currentMeta.year || "";
+      const coordinates = currentMeta.coordinates ? JSON.parse(currentMeta.coordinates) : null;
+      const isExact = currentMeta.exactLocation === "true";
+
+      const correctCategory = determineCategory(year, coordinates, isExact);
+
+      if (currentMeta.category !== correctCategory) {
+        await file.setMetadata({
+          metadata: {
+            ...currentMeta,
+            category: correctCategory
+          }
+        });
+        console.log(`✅ Updated category for: ${file.name} -> ${correctCategory}`);
+      } else {
+        console.log(`✅ Already correct: ${file.name}`);
+      }
+    }
+    res.json({ message: "All photo categories checked and updated!" });
+  } catch (err) {
+    console.error("Error fixing categories:", err);
+    res.status(500).json({ error: "Failed to fix categories." });
+  }
+});
 
 
 app.post("/api/upload", upload.single("photo"), async (req, res) => {
