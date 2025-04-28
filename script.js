@@ -157,7 +157,7 @@ async function fetchPhotos() {
     if (!response.ok) throw new Error("Failed to fetch photos.");
 
     const photos = await response.json();
-    console.log("Fetched Photos:", photos);
+// console.log("Fetched Photos:", photos);
 
     photos.forEach((photo) => {
       // ✅ Skip obvious profile pictures
