@@ -407,38 +407,53 @@ return {
   }
 });
 
-// 🔥 Temporary route to fix all old categories
 app.post("/api/fix-categories-once", async (req, res) => {
   try {
     const [files] = await bucket.getFiles();
+    const updatePromises = [];
+
     for (const file of files) {
       const [metadata] = await file.getMetadata();
       const currentMeta = metadata.metadata || {};
 
-      const year = currentMeta.year || "";
-      const coordinates = currentMeta.coordinates ? JSON.parse(currentMeta.coordinates) : null;
-      const isExact = currentMeta.exactLocation === "true";
-
-      const correctCategory = determineCategory(year, coordinates, isExact);
-
-      if (currentMeta.category !== correctCategory) {
-        await file.setMetadata({
-          metadata: {
-            ...currentMeta,
-            category: correctCategory
+      // Parse coordinates properly
+      let coordsExist = false;
+      if (currentMeta.coordinates) {
+        try {
+          const coords = JSON.parse(currentMeta.coordinates);
+          if (coords.lat && coords.lng) {
+            coordsExist = true;
           }
-        });
-        console.log(`✅ Updated category for: ${file.name} -> ${correctCategory}`);
-      } else {
-        console.log(`✅ Already correct: ${file.name}`);
+        } catch (err) {
+          coordsExist = false;
+        }
       }
+
+      const hasYear = !!currentMeta.year && currentMeta.year !== "Unknown";
+
+      let newCategory = "complete";
+      if (!hasYear && !coordsExist) newCategory = "multiple_missing";
+      else if (!hasYear) newCategory = "missing_year";
+      else if (!coordsExist) newCategory = "approx_location";
+
+      updatePromises.push(file.setMetadata({
+        metadata: {
+          ...currentMeta,
+          category: newCategory
+        }
+      }));
     }
-    res.json({ message: "All photo categories checked and updated!" });
+
+    await Promise.all(updatePromises);
+
+    res.json({ message: "✅ All photo categories corrected safely!" });
+
   } catch (err) {
     console.error("Error fixing categories:", err);
     res.status(500).json({ error: "Failed to fix categories." });
   }
 });
+
 
 
 app.post("/api/upload", upload.single("photo"), async (req, res) => {
