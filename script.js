@@ -153,6 +153,11 @@ async function checkLoginStatus() {
 // 🔹 Fetch Photos & Restore Markers on the Map
 async function fetchPhotos() {
   try {
+    
+    // 🔥 Clear old markers first
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
+
     const response = await fetch("/api/photos"); // ✅ Ensure correct API endpoint
     if (!response.ok) throw new Error("Failed to fetch photos.");
 
