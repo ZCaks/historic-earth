@@ -669,6 +669,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 🔹 Map Initialization
+  if (document.getElementById("map")) {
+    initMap();
+  }
+
   // 🔹 Auth Setup
   if (document.getElementById("login-form") || document.getElementById("signup-form")) {
     setupAuthentication();
