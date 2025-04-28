@@ -139,7 +139,7 @@ async function checkLoginStatus() {
 
     }
 
-    if (data.user.isModerator) {
+    if (data.user && data.user.isModerator) {
       // ✅ Show moderator controls, like edit/delete buttons
     }
     
