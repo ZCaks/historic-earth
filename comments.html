@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photo Comments - Historic Earth</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="comment-container">
+    <h2>Comments for Photo</h2>
+    <div id="comment-list">Loading comments...</div>
+
+    <form id="comment-form" style="display:none;">
+      <h3>Add a Comment</h3>
+      <textarea id="comment-text" rows="3" placeholder="Write your comment here..."></textarea><br/>
+      <button type="submit">Post Comment</button>
+    </form>
+
+    <p id="login-warning" class="comment-warning">You must be logged in to post a comment.</p>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const photoUrl = urlParams.get("photo");
+    const commentList = document.getElementById("comment-list");
+    const commentForm = document.getElementById("comment-form");
+    const loginWarning = document.getElementById("login-warning");
+
+    async function checkLogin() {
+      const res = await fetch("/api/auth-status", { credentials: "include" });
+      const data = await res.json();
+      if (data.loggedIn) {
+        commentForm.style.display = "block";
+        loginWarning.style.display = "none";
+      } else {
+        loginWarning.style.display = "block";
+      }
+    }
+
+    async function loadComments() {
+      try {
+        const res = await fetch(`/api/comments?photoUrl=${encodeURIComponent(photoUrl)}`);
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          if (data.length === 0) {
+            commentList.innerHTML = "<p>No comments yet.</p>";
+          } else {
+            commentList.innerHTML = "";
+            data.forEach(comment => {
+              const div = document.createElement("div");
+              div.className = "comment";
+              div.innerHTML = `
+                <strong>${comment.username}</strong><br>
+                <span>${comment.text}</span><br>
+                <small>${new Date(comment.createdAt).toLocaleString()}</small>
+              `;
+              commentList.appendChild(div);
+            });
+          }
+        } else {
+          commentList.innerHTML = "<p>Error loading comments.</p>";
+        }
+      } catch (err) {
+        commentList.innerHTML = "<p>Error loading comments.</p>";
+        console.error("Comment load error:", err);
+      }
+    }
+
+    document.getElementById("comment-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = document.getElementById("comment-text").value.trim();
+      if (!text) return alert("Please write something.");
+
+      const res = await fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ photoUrl, text })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById("comment-text").value = "";
+        loadComments();
+      } else {
+        alert(data.error || "Failed to post comment.");
+      }
+    });
+
+    // Initialize
+    if (!photoUrl) {
+      commentList.innerHTML = "<p>No photo selected.</p>";
+      commentForm.style.display = "none";
+    } else {
+      checkLogin();
+      loadComments();
+    }
+  </script>
+</body>
+</html>
