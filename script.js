@@ -316,17 +316,25 @@ btnRow.className = "photo-buttons";
 btnRow.appendChild(preserveBtn);
 btnRow.appendChild(commentBtn);
 
-// Ensure moderator-controls is appended first if not already
-if (!photoMeta.contains(modControls)) {
-  photoMeta.appendChild(modControls);
+// Clear old button rows if they exist
+const oldBtnRow = photoMeta.querySelector(".photo-buttons");
+if (oldBtnRow) oldBtnRow.remove();
+
+// Create new row and buttons
+const btnRow = document.createElement("div");
+btnRow.className = "photo-buttons";
+btnRow.appendChild(preserveBtn);
+btnRow.appendChild(commentBtn);
+
+if (modControls && photoMeta.contains(modControls)) {
+  photoMeta.insertBefore(btnRow, modControls); // ✅ Place before mod buttons
+} else {
+  photoMeta.appendChild(btnRow); // ✅ No mod buttons, just add it
 }
 
-// Now insert buttons BEFORE it
-photoMeta.insertBefore(btnRow, modControls);
-
-
-// Always make sure modControls is attached last
+// Always ensure moderator buttons are at the end
 photoMeta.appendChild(modControls);
+
 
 
 
