@@ -297,7 +297,7 @@ document.getElementById("photo-uploader-pic").src =
 // ✅ Create Preserve + Comments buttons
 const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
-preserveBtn.innerHTML = `<img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve`;
+preserveBtn.innerHTML = `❤️ 0`;
 
 const commentBtn = document.createElement("button");
 commentBtn.className = "comment-button";
@@ -316,12 +316,14 @@ btnRow.className = "photo-buttons";
 btnRow.appendChild(preserveBtn);
 btnRow.appendChild(commentBtn);
 
-// Add buttons BEFORE modControls — or at end if modControls isn't ready yet
-if (modControls && photoMeta.contains(modControls)) {
-  photoMeta.insertBefore(btnRow, modControls);
-} else {
-  photoMeta.appendChild(btnRow);
+// Ensure moderator-controls is appended first if not already
+if (!photoMeta.contains(modControls)) {
+  photoMeta.appendChild(modControls);
 }
+
+// Now insert buttons BEFORE it
+photoMeta.insertBefore(btnRow, modControls);
+
 
 // Always make sure modControls is attached last
 photoMeta.appendChild(modControls);
