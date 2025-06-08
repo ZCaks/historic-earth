@@ -316,7 +316,9 @@ const oldBtnRow = document.querySelector(".photo-buttons");
 if (oldBtnRow) oldBtnRow.remove();
 
 // Insert above the moderator buttons
-photoMeta.insertBefore(btnRow, modControls);
+photoMeta.appendChild(btnRow);
+photoMeta.appendChild(modControls);
+
 
 
 
