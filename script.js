@@ -287,6 +287,21 @@ const modControls = document.getElementById("moderator-controls");
 modControls.innerHTML = ""; // 🔥 Always clear old buttons
 
 const isUploader = currentUser && photoData.uploader === currentUser;
+
+// ✅ Insert preserve + comment buttons
+const buttonsRow = document.createElement("div");
+buttonsRow.className = "photo-buttons";
+
+buttonsRow.innerHTML = `
+  <button class="preserve-button">
+    <img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve
+  </button>
+  <button class="comment-button">Comments</button>
+`;
+
+metadata.appendChild(buttonsRow);
+
+
 if (isModerator || isUploader) {
 
   modControls.style.display = "flex";

@@ -670,6 +670,38 @@ button {
   margin: 0 !important; /* Remove margins */
 }
 
+.photo-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.preserve-button,
+.comment-button {
+  background-color: transparent;
+  border: 1px solid #888;
+  color: inherit;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.preserve-button:hover,
+.comment-button:hover {
+  background-color: #e0e0e0;
+}
+
+.preserve-icon {
+  width: 16px;
+  height: 16px;
+}
+
+
 @media (prefers-color-scheme: dark) {
   body, html {
     background-color: #121212 !important;
