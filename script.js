@@ -303,64 +303,28 @@ const commentBtn = document.createElement("button");
 commentBtn.className = "comment-button";
 commentBtn.textContent = "Comments";
 
-
-// ✅ Group Preserve + Comments + Edit/Delete in the same row
+// ✅ Insert Preserve and Comments buttons correctly
 const photoMeta = document.getElementById("photo-metadata");
-const descriptionEl = document.getElementById("photo-description-display"); // 👈 make sure this exists
 
-// Create row wrapper
-const actionRow = document.createElement("div");
-actionRow.id = "photo-meta-row";
-actionRow.style.display = "flex";
-actionRow.style.justifyContent = "space-between";
-actionRow.style.alignItems = "center";
-actionRow.style.gap = "30px";
-actionRow.style.flexWrap = "wrap";
-actionRow.style.marginBottom = "10px";
+// Clear old button rows if they exist
+const oldBtnRow = photoMeta.querySelector(".photo-buttons");
+if (oldBtnRow) oldBtnRow.remove();
 
-// LEFT: uploader info
-const uploaderWrapper = document.createElement("div");
-uploaderWrapper.id = "photo-uploader-wrapper";
-uploaderWrapper.appendChild(document.getElementById("photo-uploader-pic"));
-uploaderWrapper.appendChild(document.getElementById("photo-uploader-display"));
+// Create new row and buttons
+const btnRow = document.createElement("div");
+btnRow.className = "photo-buttons";
+btnRow.appendChild(preserveBtn);
+btnRow.appendChild(commentBtn);
 
-// MIDDLE: preserve + comment
-const preserveCommentWrapper = document.createElement("div");
-preserveCommentWrapper.className = "photo-buttons";
-preserveCommentWrapper.appendChild(preserveBtn);
-preserveCommentWrapper.appendChild(commentBtn);
-
-// RIGHT: mod buttons
-const modWrapper = document.createElement("div");
-modWrapper.id = "moderator-controls";
-if (isModerator || isUploader) {
-  const editBtn = document.createElement("button");
-  editBtn.textContent = "Edit";
-  editBtn.type = "button";
-  editBtn.className = "btn btn-primary";
-  editBtn.addEventListener("click", () =>
-    prepareEditPhoto(photoData.url, photoData.name, photoData.year, photoData.description)
-  );
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.type = "button";
-  deleteBtn.className = "btn btn-danger";
-  deleteBtn.addEventListener("click", () => deletePhoto(photoData.url));
-
-  modWrapper.appendChild(editBtn);
-  modWrapper.appendChild(deleteBtn);
+// Add buttons BEFORE modControls — or at end if modControls isn't ready yet
+if (modControls && photoMeta.contains(modControls)) {
+  photoMeta.insertBefore(btnRow, modControls);
+} else {
+  photoMeta.appendChild(btnRow);
 }
 
-// Remove old version if it exists
-const oldRow = photoMeta.querySelector("#photo-meta-row");
-if (oldRow) oldRow.remove();
-
-// Add row to page above the description
-actionRow.appendChild(uploaderWrapper);
-actionRow.appendChild(preserveCommentWrapper);
-actionRow.appendChild(modWrapper);
-photoMeta.insertBefore(actionRow, descriptionEl);
+// Always make sure modControls is attached last
+photoMeta.appendChild(modControls);
 
 
 
