@@ -310,9 +310,6 @@ commentBtn.textContent = "Comments";
 buttonsRow.appendChild(preserveBtn);
 buttonsRow.appendChild(commentBtn);
 
-// Add container to moderator-controls
-const modControls = document.getElementById("moderator-controls");
-modControls.appendChild(buttonsRow);
 
 
 
