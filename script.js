@@ -262,27 +262,8 @@ async function displayPhoto(photoData) {
   document.getElementById("photo-name-display").textContent = photoData.name;
   document.getElementById("photo-year-display").textContent = photoData.year || "Unknown";
   document.getElementById("photo-description-display").textContent = photoData.description || "No description provided.";
-  const uploaderName = photoData.uploader || "Unknown";
-  const uploaderDisplay = document.getElementById("photo-uploader-display");
-  uploaderDisplay.textContent = uploaderName;
-  uploaderDisplay.style.cursor = "pointer";
-  uploaderDisplay.style.color = "#007bff";
-  uploaderDisplay.style.textDecoration = "underline";
-  uploaderDisplay.onclick = () => {
-    window.location.href = `user.html?username=${uploaderName}`;
-  };
-   
-  // Insert preserve + comment buttons right after uploader
-const preserveBtn = document.createElement("button");
-preserveBtn.className = "preserve-button";
-preserveBtn.innerHTML = `<img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve`;
 
-const commentBtn = document.createElement("button");
-commentBtn.className = "comment-button";
-commentBtn.textContent = "Comments";
-
-uploaderDisplay.insertAdjacentElement("afterend", preserveBtn);
-preserveBtn.insertAdjacentElement("afterend", commentBtn);
+  
 
   
   const profilePic = document.getElementById("photo-uploader-pic");
@@ -301,7 +282,30 @@ modControls.innerHTML = ""; // 🔥 Always clear old buttons
 
 const isUploader = currentUser && photoData.uploader === currentUser;
 
+// ✅ Show uploader name + profile picture
+document.getElementById("photo-uploader-display").textContent = photoData.uploader || "Unknown";
+document.getElementById("photo-uploader-display").style.cursor = "pointer";
+document.getElementById("photo-uploader-display").style.color = "#007bff";
+document.getElementById("photo-uploader-display").style.textDecoration = "underline";
+document.getElementById("photo-uploader-display").onclick = () => {
+  window.location.href = `user.html?username=${photoData.uploader}`;
+};
 
+document.getElementById("photo-uploader-pic").src =
+  photoData.uploaderPic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
+
+// ✅ Create Preserve + Comments buttons
+const preserveBtn = document.createElement("button");
+preserveBtn.className = "preserve-button";
+preserveBtn.innerHTML = `<img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve`;
+
+const commentBtn = document.createElement("button");
+commentBtn.className = "comment-button";
+commentBtn.textContent = "Comments";
+
+// ✅ Insert after uploader name
+document.getElementById("photo-uploader-display").insertAdjacentElement("afterend", preserveBtn);
+preserveBtn.insertAdjacentElement("afterend", commentBtn);
 
 
 if (isModerator || isUploader) {
