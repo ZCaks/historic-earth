@@ -316,11 +316,17 @@ btnRow.className = "photo-buttons";
 btnRow.appendChild(preserveBtn);
 btnRow.appendChild(commentBtn);
 
-if (modControls && photoMeta.contains(modControls)) {
-  photoMeta.insertBefore(btnRow, modControls); // ✅ Place before mod buttons
+const layoutRow = photoMeta.querySelector("div[style*='justify-content']");
+
+console.log("Found row:", layoutRow, "| Found modControls:", modControls);
+
+
+if (layoutRow) {
+  layoutRow.appendChild(btnRow);
 } else {
-  photoMeta.appendChild(btnRow); // ✅ No mod buttons, just add it
+  photoMeta.appendChild(btnRow);
 }
+
 
 // Always ensure moderator buttons are at the end
 photoMeta.appendChild(modControls);
