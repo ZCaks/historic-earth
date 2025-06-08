@@ -306,7 +306,6 @@ commentBtn.textContent = "Comments";
 
 // ✅ Insert Preserve and Comments buttons between uploader and moderator buttons
 const uploaderWrapper = document.getElementById("photo-uploader-wrapper");
-const modControls = document.getElementById("moderator-controls");
 
 // Insert buttons right after uploader
 const btnRow = document.createElement("div");
