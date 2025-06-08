@@ -271,7 +271,20 @@ async function displayPhoto(photoData) {
   uploaderDisplay.onclick = () => {
     window.location.href = `user.html?username=${uploaderName}`;
   };
-    
+   
+  // Insert preserve + comment buttons right after uploader
+const preserveBtn = document.createElement("button");
+preserveBtn.className = "preserve-button";
+preserveBtn.innerHTML = `<img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve`;
+
+const commentBtn = document.createElement("button");
+commentBtn.className = "comment-button";
+commentBtn.textContent = "Comments";
+
+uploaderDisplay.insertAdjacentElement("afterend", preserveBtn);
+preserveBtn.insertAdjacentElement("afterend", commentBtn);
+
+  
   const profilePic = document.getElementById("photo-uploader-pic");
   profilePic.src = photoData.uploaderPic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
   
@@ -288,29 +301,6 @@ modControls.innerHTML = ""; // 🔥 Always clear old buttons
 
 const isUploader = currentUser && photoData.uploader === currentUser;
 
-// ✅ Insert preserve + comment buttons at the right side
-const buttonsRow = document.createElement("div");
-buttonsRow.className = "photo-buttons";
-buttonsRow.style.display = "flex";
-buttonsRow.style.gap = "10px";
-buttonsRow.style.justifyContent = "flex-end";
-buttonsRow.style.marginTop = "10px";
-
-// Preserve Button
-const preserveBtn = document.createElement("button");
-preserveBtn.className = "preserve-button";
-preserveBtn.innerHTML = `<img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve`;
-
-// Comments Button
-const commentBtn = document.createElement("button");
-commentBtn.className = "comment-button";
-commentBtn.textContent = "Comments";
-
-// Add buttons to container
-buttonsRow.appendChild(preserveBtn);
-buttonsRow.appendChild(commentBtn);
-
-metadata.appendChild(buttonsRow);
 
 
 
