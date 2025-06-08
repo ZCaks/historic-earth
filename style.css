@@ -692,12 +692,13 @@ button {
 .preserve-button,
 .comment-button {
   padding: 4px 10px;
-  background-color: #444;
+  background-color: #007bff; /* default blue for light mode */
   color: white;
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
 }
+
 
 .preserve-button img {
   vertical-align: middle;
@@ -900,3 +901,14 @@ input[type="number"] {
   outline: none !important;
 }
 
+.preserve-button,
+.comment-button {
+  background-color: #333 !important;
+  color: #f0f0f0 !important;
+  border: 1px solid #444 !important;
+}
+
+.preserve-button:hover,
+.comment-button:hover {
+  background-color: #444 !important;
+}
