@@ -303,15 +303,23 @@ const commentBtn = document.createElement("button");
 commentBtn.className = "comment-button";
 commentBtn.textContent = "Comments";
 
-// ✅ Insert Preserve and Comment buttons in the dedicated container
-const buttonsContainer = document.getElementById("photo-buttons-container");
-buttonsContainer.innerHTML = ""; // Clear previous buttons
-buttonsContainer.style.display = "flex";
-buttonsContainer.style.gap = "10px";
 
+// ✅ Insert Preserve and Comments buttons between uploader and moderator buttons
+const uploaderWrapper = document.getElementById("photo-uploader-wrapper");
+const modControls = document.getElementById("moderator-controls");
 
-buttonsContainer.appendChild(preserveBtn);
-buttonsContainer.appendChild(commentBtn);
+// Insert buttons right after uploader
+const btnRow = document.createElement("div");
+btnRow.style.display = "flex";
+btnRow.style.gap = "10px";
+btnRow.style.marginLeft = "10px";
+btnRow.appendChild(preserveBtn);
+btnRow.appendChild(commentBtn);
+
+// Inject between uploader and moderator
+if (uploaderWrapper && modControls && uploaderWrapper.parentNode) {
+  uploaderWrapper.parentNode.insertBefore(btnRow, modControls);
+}
 
 
 if (isModerator || isUploader) {
