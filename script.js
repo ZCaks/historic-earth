@@ -310,6 +310,7 @@ commentBtn.textContent = "Comments";
 buttonsRow.appendChild(preserveBtn);
 buttonsRow.appendChild(commentBtn);
 
+metadata.appendChild(buttonsRow);
 
 
 
