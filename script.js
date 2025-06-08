@@ -304,21 +304,20 @@ commentBtn.className = "comment-button";
 commentBtn.textContent = "Comments";
 
 
-// ✅ Insert Preserve and Comments buttons between uploader and moderator buttons
-const uploaderWrapper = document.getElementById("photo-uploader-wrapper");
-
-// Insert buttons right after uploader
+// ✅ Insert Preserve and Comments buttons correctly
+const photoMeta = document.getElementById("photo-metadata");
 const btnRow = document.createElement("div");
-btnRow.style.display = "flex";
-btnRow.style.gap = "10px";
-btnRow.style.marginLeft = "10px";
+btnRow.className = "photo-buttons";
 btnRow.appendChild(preserveBtn);
 btnRow.appendChild(commentBtn);
 
-// Inject between uploader and moderator
-if (uploaderWrapper && modControls && uploaderWrapper.parentNode) {
-  uploaderWrapper.parentNode.insertBefore(btnRow, modControls);
-}
+// Clear existing buttons first if needed
+const oldBtnRow = document.querySelector(".photo-buttons");
+if (oldBtnRow) oldBtnRow.remove();
+
+// Insert above the moderator buttons
+photoMeta.insertBefore(btnRow, modControls);
+
 
 
 if (isModerator || isUploader) {
