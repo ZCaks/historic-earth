@@ -306,30 +306,30 @@ commentBtn.textContent = "Comments";
 // ✅ Insert Preserve and Comments buttons correctly
 const photoMeta = document.getElementById("photo-metadata");
 
-// Clear old button rows if they exist
+// 🧹 Clear old button row if it exists
 const oldBtnRow = photoMeta.querySelector(".photo-buttons");
 if (oldBtnRow) oldBtnRow.remove();
 
-// Create new row and buttons
+// ✅ Create Preserve + Comment row
 const btnRow = document.createElement("div");
 btnRow.className = "photo-buttons";
 btnRow.appendChild(preserveBtn);
 btnRow.appendChild(commentBtn);
 
+// ✅ Locate the flex row with uploader + modControls
 const layoutRow = photoMeta.querySelector("div[style*='justify-content']");
+const uploaderWrapper = layoutRow?.querySelector("#photo-uploader-wrapper");
 
-console.log("Found row:", layoutRow, "| Found modControls:", modControls);
+console.log("Found layoutRow:", layoutRow, "| uploaderWrapper:", uploaderWrapper, "| modControls:", modControls);
 
-
-if (layoutRow) {
-  layoutRow.appendChild(btnRow);
+if (layoutRow && uploaderWrapper && modControls) {
+  layoutRow.insertBefore(btnRow, modControls); // ✅ Insert BEFORE mod buttons
+} else if (layoutRow) {
+  layoutRow.appendChild(btnRow); // fallback
 } else {
-  photoMeta.appendChild(btnRow);
+  photoMeta.appendChild(btnRow); // fallback
 }
 
-
-// Always ensure moderator buttons are at the end
-photoMeta.appendChild(modControls);
 
 
 
