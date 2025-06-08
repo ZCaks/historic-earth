@@ -316,16 +316,6 @@ btnRow.className = "photo-buttons";
 btnRow.appendChild(preserveBtn);
 btnRow.appendChild(commentBtn);
 
-// Clear old button rows if they exist
-const oldBtnRow = photoMeta.querySelector(".photo-buttons");
-if (oldBtnRow) oldBtnRow.remove();
-
-// Create new row and buttons
-const btnRow = document.createElement("div");
-btnRow.className = "photo-buttons";
-btnRow.appendChild(preserveBtn);
-btnRow.appendChild(commentBtn);
-
 if (modControls && photoMeta.contains(modControls)) {
   photoMeta.insertBefore(btnRow, modControls); // ✅ Place before mod buttons
 } else {
