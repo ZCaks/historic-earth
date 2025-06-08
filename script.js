@@ -303,9 +303,15 @@ const commentBtn = document.createElement("button");
 commentBtn.className = "comment-button";
 commentBtn.textContent = "Comments";
 
-// ✅ Insert after uploader name
-document.getElementById("photo-uploader-display").insertAdjacentElement("afterend", preserveBtn);
-preserveBtn.insertAdjacentElement("afterend", commentBtn);
+// ✅ Insert Preserve and Comment buttons in the dedicated container
+const buttonsContainer = document.getElementById("photo-buttons-container");
+buttonsContainer.innerHTML = ""; // Clear previous buttons
+buttonsContainer.style.display = "flex";
+buttonsContainer.style.gap = "10px";
+
+
+buttonsContainer.appendChild(preserveBtn);
+buttonsContainer.appendChild(commentBtn);
 
 
 if (isModerator || isUploader) {
