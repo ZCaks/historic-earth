@@ -680,24 +680,31 @@ button {
 
 .photo-buttons {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  float: right; /* ✅ aligns [Preserve] [Comments] to the right */
 }
+
 
 .preserve-button,
 .comment-button {
-  background-color: transparent;
-  border: 1px solid #888;
-  color: inherit;
-  padding: 6px 12px;
+  padding: 4px 10px;
+  background-color: #444;
+  color: white;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: background-color 0.2s ease;
 }
+
+.preserve-button img {
+  vertical-align: middle;
+  margin-right: 5px;
+  height: 16px;
+}
+
 
 .preserve-button:hover,
 .comment-button:hover {
