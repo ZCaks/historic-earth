@@ -288,18 +288,32 @@ modControls.innerHTML = ""; // 🔥 Always clear old buttons
 
 const isUploader = currentUser && photoData.uploader === currentUser;
 
-// ✅ Insert preserve + comment buttons
+// ✅ Insert preserve + comment buttons at the right side
 const buttonsRow = document.createElement("div");
 buttonsRow.className = "photo-buttons";
+buttonsRow.style.display = "flex";
+buttonsRow.style.gap = "10px";
+buttonsRow.style.justifyContent = "flex-end";
+buttonsRow.style.marginTop = "10px";
 
-buttonsRow.innerHTML = `
-  <button class="preserve-button">
-    <img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve
-  </button>
-  <button class="comment-button">Comments</button>
-`;
+// Preserve Button
+const preserveBtn = document.createElement("button");
+preserveBtn.className = "preserve-button";
+preserveBtn.innerHTML = `<img src="images/preserve_W.svg" alt="Preserve" class="preserve-icon"> Preserve`;
 
-metadata.appendChild(buttonsRow);
+// Comments Button
+const commentBtn = document.createElement("button");
+commentBtn.className = "comment-button";
+commentBtn.textContent = "Comments";
+
+// Add buttons to container
+buttonsRow.appendChild(preserveBtn);
+buttonsRow.appendChild(commentBtn);
+
+// Add container to moderator-controls
+const modControls = document.getElementById("moderator-controls");
+modControls.appendChild(buttonsRow);
+
 
 
 if (isModerator || isUploader) {
