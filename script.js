@@ -1241,6 +1241,26 @@ async function loadUserPhotos() {
   }
 }
 
+async function togglePreserve(photoId, button) {
+  try {
+    const response = await fetch(`/api/toggle-preserve/${photoId}`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      const countSpan = button.querySelector(".preserve-count");
+      if (countSpan) countSpan.textContent = result.totalPreserves;
+    } else {
+      alert(result.error || "Something went wrong.");
+    }
+  } catch (err) {
+    console.error("Error toggling preserve:", err);
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.includes("user.html")) {
     loadPublicUserProfile();
