@@ -16,8 +16,10 @@ const axios = require("axios");
 const upload = multer({ storage: multer.memoryStorage() });
 const crypto = require("crypto");
 const { Resend } = require("resend");
-const resend = new Resend("re_Jexwy3nK_G7rb1ZCicbr66k5Q7EFwKt81");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const connectDB = require("../db");
+const { Preserve } = require('./models');
+
 
 connectDB(); // Call it early — NOT inside route handlers
 
@@ -816,6 +818,37 @@ app.delete("/api/delete-account", async (req, res) => {
   } catch (err) {
     console.error("Delete account error:", err);
     res.status(500).json({ error: "Failed to delete account." });
+  }
+});
+
+app.post('/api/preserve', async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ success: false, message: "Not logged in" });
+    }
+
+    const username = req.session.user.username;
+    const { photoUrl } = req.body;
+
+    if (!photoUrl) {
+      return res.status(400).json({ success: false, message: "Photo URL missing" });
+    }
+
+    const existing = await Preserve.findOne({ photoUrl, username });
+
+    if (existing) {
+      await Preserve.deleteOne({ _id: existing._id }); // unpreserve
+    } else {
+      await Preserve.create({ photoUrl, username }); // preserve
+    }
+
+    const totalPreserves = await Preserve.countDocuments({ photoUrl });
+    const userPreserved = !existing;
+
+    res.json({ success: true, totalPreserves, userPreserved });
+  } catch (err) {
+    console.error("❌ Preserve error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
