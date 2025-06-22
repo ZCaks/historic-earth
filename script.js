@@ -297,8 +297,8 @@ document.getElementById("photo-uploader-pic").src =
 // ✅ Create Preserve + Comments buttons
 const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
-preserveBtn.innerHTML = `
-  ❤️
+preserveBtn.innerHTML = `❤️
+  <img class="preserve-icon" src="assets/preserve_B.svg">
   <span class="preserve-count">${photoData.totalPreserves || 0}</span>
 `;
 
@@ -1246,36 +1246,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPublicUserProfile();
   }
 });
-
-async function togglePreserve(photoUrl, button) {
-  try {
-    const response = await fetch('/api/preserve', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ photoUrl })
-    });
-
-    const result = await response.json();
-    if (!result.success) {
-      alert(result.message || 'Could not update preserve.');
-      return;
-    }
-
-    // Update icon and count
-    const icon = button.querySelector('img');
-    const countSpan = button.querySelector('.preserve-count');
-    countSpan.textContent = result.totalPreserves;
-
-    const isDark = document.body.classList.contains("dark");
-    icon.src = result.userPreserved
-      ? (isDark ? "assets/preserve_W.svg" : "assets/preserve_B.svg")
-      : (isDark ? "assets/preserve_B.svg" : "assets/preserve_W.svg");
-  } catch (err) {
-    console.error("Preserve toggle failed:", err);
-  }
-}
-
 
 async function loadPublicUserProfile() {
   const params = new URLSearchParams(window.location.search);
