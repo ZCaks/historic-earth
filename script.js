@@ -297,7 +297,7 @@ document.getElementById("photo-uploader-pic").src =
 // ✅ Create Preserve + Comments buttons
 const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
-preserveBtn.innerHTML = `❤️
+preserveBtn.innerHTML = `
   <img class="preserve-icon" src="assets/preserve_B.svg">
   <span class="preserve-count">${photoData.totalPreserves || 0}</span>
 `;
