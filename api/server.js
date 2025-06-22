@@ -823,32 +823,59 @@ app.delete("/api/delete-account", async (req, res) => {
 
 app.post('/api/preserve', async (req, res) => {
   try {
+    // Check if user is logged in
     if (!req.session.user) {
-      return res.status(401).json({ success: false, message: "Not logged in" });
+      return res.status(401).json({ 
+        success: false, 
+        message: "Please log in to save photos." 
+      });
     }
 
     const username = req.session.user.username;
     const { photoUrl } = req.body;
 
+    // Check if photo URL was provided
     if (!photoUrl) {
-      return res.status(400).json({ success: false, message: "Photo URL missing" });
+      return res.status(400).json({ 
+        success: false, 
+        message: "Photo URL is missing." 
+      });
     }
 
-    const existing = await Preserve.findOne({ photoUrl, username });
+    // Check if user already "preserved" this photo
+    const existing = await Preserve.findOne({ 
+      photoUrl: photoUrl.trim(), 
+      username 
+    });
 
     if (existing) {
-      await Preserve.deleteOne({ _id: existing._id }); // unpreserve
+      // If already preserved, remove it (unlike)
+      await Preserve.deleteOne({ _id: existing._id });
+      const totalPreserves = await Preserve.countDocuments({ photoUrl });
+      return res.json({ 
+        success: true, 
+        totalPreserves, 
+        userPreserved: false 
+      });
     } else {
-      await Preserve.create({ photoUrl, username }); // preserve
+      // If not preserved, add it (like)
+      await Preserve.create({ 
+        photoUrl: photoUrl.trim(), 
+        username 
+      });
+      const totalPreserves = await Preserve.countDocuments({ photoUrl });
+      return res.json({ 
+        success: true, 
+        totalPreserves, 
+        userPreserved: true 
+      });
     }
-
-    const totalPreserves = await Preserve.countDocuments({ photoUrl });
-    const userPreserved = !existing;
-
-    res.json({ success: true, totalPreserves, userPreserved });
   } catch (err) {
     console.error("❌ Preserve error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({ 
+      success: false, 
+      message: "Server error. Try again later." 
+    });
   }
 });
 

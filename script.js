@@ -1241,22 +1241,36 @@ async function loadUserPhotos() {
   }
 }
 
-async function togglePreserve(photoId, button) {
+async function togglePreserve(photoUrl) {
   try {
-    const response = await fetch(`/api/toggle-preserve/${photoId}`, {
-      method: "POST",
-      credentials: "include",
+    // Call the server
+    const response = await fetch('https://www.earththen.net/api/preserve', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        photoUrl: photoUrl.trim() // Ensure URL has no extra spaces
+      }),
+      credentials: 'include' // Required for sessions/cookies
     });
 
+    // Handle response
     const result = await response.json();
-    if (response.ok) {
-      const countSpan = button.querySelector(".preserve-count");
-      if (countSpan) countSpan.textContent = result.totalPreserves;
+
+    if (result.success) {
+      // Update the button text and style
+      const button = document.querySelector(`[data-photo="${photoUrl}"]`);
+      if (button) {
+        button.textContent = `Preserve (${result.totalPreserves})`;
+        button.classList.toggle('preserved', result.userPreserved);
+      }
     } else {
-      alert(result.error || "Something went wrong.");
+      alert(result.message || "Failed to save. Try again.");
     }
-  } catch (err) {
-    console.error("Error toggling preserve:", err);
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Network error. Check console for details.");
   }
 }
 
