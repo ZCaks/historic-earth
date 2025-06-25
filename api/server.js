@@ -104,7 +104,14 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: { type: Date }
 });
 
+// Add this near your other models (like where User model is defined)
+const preserveSchema = new mongoose.Schema({
+  photoUrl: { type: String, required: true },
+  username: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
 
+const Preserve = mongoose.model('Preserve', preserveSchema);
 
 const User = mongoose.model("User", userSchema);
 
@@ -380,6 +387,10 @@ if (uploader) {
     uploaderPic = userDoc.profilePic;
   }
 }
+
+const totalPreserves = await Preserve.countDocuments({ photoUrl: `https://storage.googleapis.com/${bucketName}/${file.name}` });
+
+const userPreserved = req.session.user ? await Preserve.exists({ photoUrl: `https://storage.googleapis.com/${bucketName}/${file.name}`, username: req.session.user.username }) : false;
 
 // ✅ Return updated photo info
 return {

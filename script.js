@@ -298,7 +298,8 @@ document.getElementById("photo-uploader-pic").src =
 const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
 preserveBtn.innerHTML = `
-  <img class="preserve-icon" src="assets/preserve_B.svg">
+  <img class="preserve-icon" 
+       src="${photoData.userPreserved ? 'assets/preserve_B.svg' : 'assets/preserve_W.svg'}">
   <span class="preserve-count">${photoData.totalPreserves || 0}</span>
 `;
 
@@ -1241,36 +1242,40 @@ async function loadUserPhotos() {
   }
 }
 
-async function togglePreserve(photoUrl) {
+async function togglePreserve(photoUrl, buttonElement) {
   try {
-    // Call the server
-    const response = await fetch('https://www.earththen.net/api/preserve', {
+    const response = await fetch('/api/preserve', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        photoUrl: photoUrl.trim() // Ensure URL has no extra spaces
-      }),
-      credentials: 'include' // Required for sessions/cookies
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ photoUrl }),
+      credentials: 'include'
     });
 
-    // Handle response
     const result = await response.json();
 
     if (result.success) {
-      // Update the button text and style
-      const button = document.querySelector(`[data-photo="${photoUrl}"]`);
-      if (button) {
-        button.textContent = `Preserve (${result.totalPreserves})`;
-        button.classList.toggle('preserved', result.userPreserved);
+      // Update button appearance
+      const icon = buttonElement.querySelector('img');
+      const countSpan = buttonElement.querySelector('.preserve-count');
+      
+      // Toggle between black/white icons
+      if (result.userPreserved) {
+        icon.src = document.body.classList.contains('dark') 
+          ? 'assets/preserve_W.svg' 
+          : 'assets/preserve_B.svg';
+      } else {
+        icon.src = document.body.classList.contains('dark')
+          ? 'assets/preserve_B.svg'
+          : 'assets/preserve_W.svg';
       }
+      
+      countSpan.textContent = result.totalPreserves;
     } else {
-      alert(result.message || "Failed to save. Try again.");
+      alert(result.message || "Error saving photo");
     }
   } catch (error) {
     console.error("Error:", error);
-    alert("Network error. Check console for details.");
+    alert("Network error - please try again");
   }
 }
 
