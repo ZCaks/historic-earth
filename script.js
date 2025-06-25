@@ -298,9 +298,18 @@ document.getElementById("photo-uploader-pic").src =
 const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
 preserveBtn.innerHTML = `
-  <img class="preserve-icon" src="assets/preserve_B.svg">
+  <img class="preserve-icon" 
+       src="${photoData.userPreserved ? 'assets/preserve_B.svg' : 'assets/preserve_W.svg'}">
   <span class="preserve-count">${photoData.totalPreserves || 0}</span>
 `;
+
+preserveBtn.addEventListener("click", async () => {
+  if (!localStorage.getItem("username")) {
+    alert("Please log in to preserve photos");
+    return;
+  }
+  await togglePreserve(photoData.url, preserveBtn);
+});
 
 const isDark = document.body.classList.contains("dark");
 const preserveIcon = preserveBtn.querySelector("img");
@@ -1241,36 +1250,30 @@ async function loadUserPhotos() {
   }
 }
 
-async function togglePreserve(photoUrl) {
+async function togglePreserve(photoUrl, buttonElement) {
   try {
-    // Call the server
-    const response = await fetch('https://www.earththen.net/api/preserve', {
+    const response = await fetch('/api/preserve', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        photoUrl: photoUrl.trim() // Ensure URL has no extra spaces
-      }),
-      credentials: 'include' // Required for sessions/cookies
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ photoUrl }),
+      credentials: 'include'
     });
-
-    // Handle response
+    
+    if (!response.ok) throw new Error("API request failed");
+    
     const result = await response.json();
-
-    if (result.success) {
-      // Update the button text and style
-      const button = document.querySelector(`[data-photo="${photoUrl}"]`);
-      if (button) {
-        button.textContent = `Preserve (${result.totalPreserves})`;
-        button.classList.toggle('preserved', result.userPreserved);
-      }
-    } else {
-      alert(result.message || "Failed to save. Try again.");
-    }
+    const icon = buttonElement.querySelector('img');
+    const countSpan = buttonElement.querySelector('.preserve-count');
+    
+    // Update icon and count
+    icon.src = result.userPreserved 
+      ? 'assets/preserve_B.svg' 
+      : 'assets/preserve_W.svg';
+    countSpan.textContent = result.totalPreserves;
+    
   } catch (error) {
-    console.error("Error:", error);
-    alert("Network error. Check console for details.");
+    console.error("Preserve error:", error);
+    alert("Action failed. Please try again.");
   }
 }
 
