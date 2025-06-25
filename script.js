@@ -294,13 +294,11 @@ document.getElementById("photo-uploader-display").onclick = () => {
 document.getElementById("photo-uploader-pic").src =
   photoData.uploaderPic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
 
-// ✅ Create Preserve + Comments buttons
 const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
 preserveBtn.innerHTML = `
-  <img class="preserve-icon" 
-src="${photoData.userPreserved ? '/assets/preserve_B.svg' : '/assets/preserve_W.svg'}"
-<span class="preserve-count">${photoData.totalPreserves || 0}</span>
+  <span class="preserve-emoji">${photoData.userPreserved ? '❤️' : '♡'}</span>
+  <span class="preserve-count">${photoData.totalPreserves || 0}</span>
 `;
 
 preserveBtn.addEventListener("click", async () => {
@@ -1259,27 +1257,17 @@ async function togglePreserve(photoUrl, buttonElement) {
       credentials: 'include'
     });
     
-    if (!response.ok) throw new Error("API request failed");
-    
     const result = await response.json();
+    const emoji = buttonElement.querySelector('.preserve-emoji');
+    const countSpan = buttonElement.querySelector('.preserve-count');
     
-    // SAFE ELEMENT SELECTION
-    const icon = buttonElement?.querySelector('.preserve-icon');
-    const countSpan = buttonElement?.querySelector('.preserve-count');
-    
-    if (!icon || !countSpan) {
-      throw new Error("Could not find button elements");
-    }
-    
-    // Update UI
-    icon.src = result.userPreserved 
-      ? '/assets/preserve_B.svg' 
-      : '/assets/preserve_W.svg';
+    // Update emoji and count
+    emoji.textContent = result.userPreserved ? '❤️' : '♡';
     countSpan.textContent = result.totalPreserves;
     
   } catch (error) {
     console.error("Preserve error:", error);
-    // alert("Action failed. Please refresh and try again.");
+    alert("Action failed. Please try again.");
   }
 }
 
