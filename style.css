@@ -700,23 +700,37 @@ button {
 }
 
 
-.preserve-button img {
+.preserve-emoji {
+  display: inline-block;
+  font-size: 16px;
   vertical-align: middle;
   margin-right: 5px;
-  height: 16px;
 }
 
+.preserve-count {
+  vertical-align: middle;
+}
 
 .preserve-button:hover,
 .comment-button:hover {
   background-color: #e0e0e0;
 }
 
-.preserve-icon {
-  width: 16px;
-  height: 16px;
+.preserve-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+.preserve-emoji {
+  font-size: 16px;
+  margin-right: 5px;
+}
 
 @media (prefers-color-scheme: dark) {
   body, html {
@@ -899,7 +913,10 @@ input[type="number"] {
 .comment-button:hover {
   background-color: #444 !important;
 }
-
+  
+  .preserve-emoji {
+    color: #fff;
+  }
 }
   
 
