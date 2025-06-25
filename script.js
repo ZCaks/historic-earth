@@ -294,8 +294,9 @@ document.getElementById("photo-uploader-display").onclick = () => {
 document.getElementById("photo-uploader-pic").src =
   photoData.uploaderPic || "https://storage.googleapis.com/historic-earth-uploads/Default_profile.png";
 
+// Inside displayPhoto(), modify the preserve button creation:
 const preserveBtn = document.createElement("button");
-preserveBtn.className = "preserve-button";
+preserveBtn.className = `preserve-button ${photoData.userPreserved ? 'preserved' : ''}`;
 preserveBtn.innerHTML = `
   <span class="preserve-emoji">${photoData.userPreserved ? '❤️' : '♡'}</span>
   <span class="preserve-count">${photoData.totalPreserves || 0}</span>
@@ -309,12 +310,11 @@ preserveBtn.addEventListener("click", async () => {
   await togglePreserve(photoData.url, preserveBtn);
 });
 
-const isDark = document.body.classList.contains("dark");
-const preserveIcon = preserveBtn.querySelector("img");
 
-preserveIcon.src = photoData.userPreserved
-  ? (isDark ? "assets/preserve_W.svg" : "assets/preserve_B.svg")
-  : (isDark ? "assets/preserve_B.svg" : "assets/preserve_W.svg");
+preserveBtn.innerHTML = `
+  <span class="preserve-emoji">${photoData.userPreserved ? '❤️' : '♡'}</span>
+  <span class="preserve-count">${photoData.totalPreserves || 0}</span>
+`;
 
 preserveBtn.addEventListener("click", () => {
   if (!localStorage.getItem("username")) {
@@ -1250,6 +1250,11 @@ async function loadUserPhotos() {
 
 async function togglePreserve(photoUrl, buttonElement) {
   try {
+    if (!buttonElement) return;
+    
+    // Disable button during request to prevent double-taps
+    buttonElement.disabled = true;
+    
     const response = await fetch('/api/preserve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1257,17 +1262,26 @@ async function togglePreserve(photoUrl, buttonElement) {
       credentials: 'include'
     });
     
+    if (!response.ok) throw new Error('Server error');
+    
     const result = await response.json();
-    const emoji = buttonElement.querySelector('.preserve-emoji');
-    const countSpan = buttonElement.querySelector('.preserve-count');
     
-    // Update emoji and count
-    emoji.textContent = result.userPreserved ? '❤️' : '♡';
-    countSpan.textContent = result.totalPreserves;
-    
+    if (result.success) {
+      const emoji = buttonElement.querySelector('.preserve-emoji');
+      const countSpan = buttonElement.querySelector('.preserve-count');
+      
+      // Update UI based on server response
+      emoji.textContent = result.userPreserved ? '❤️' : '♡';
+      countSpan.textContent = result.totalPreserves;
+      
+      // Toggle preserved class for styling
+      buttonElement.classList.toggle('preserved', result.userPreserved);
+    }
   } catch (error) {
     console.error("Preserve error:", error);
-    alert("Action failed. Please try again.");
+    alert("Couldn't complete this action. Please try again.");
+  } finally {
+    buttonElement.disabled = false;
   }
 }
 
