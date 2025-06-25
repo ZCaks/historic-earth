@@ -69,22 +69,20 @@ const bucket = storage.bucket(bucketName);
 
 // ✅ Secure Google Maps API loader
 app.get("/api/maps-loader", (req, res) => {
-  try {
-    const key = process.env.GOOGLE_MAPS_API_KEY;
-    if (!key) throw new Error("Google Maps API key is missing");
-    
-    res.set("Content-Type", "application/javascript");
-    res.send(`
-      const script = document.createElement('script');
-      script.src = "https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap";
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-    `);
-  } catch (error) {
-    console.error("Maps loader error:", error);
-    res.status(500).send("console.error('Failed to load maps');");
-  }
+  const key = process.env.GOOGLE_MAPS_API_KEY;
+  res.set("Content-Type", "application/javascript");
+  res.send(`
+    const script = document.createElement('script');
+    script.src = "https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  `);
+});
+
+// ✅ Fallback to `index.html` for SPA support
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 
@@ -106,14 +104,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: { type: Date }
 });
 
-// Add this near your other models (like where User model is defined)
-const preserveSchema = new mongoose.Schema({
-  photoUrl: { type: String, required: true },
-  username: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
-});
 
-const Preserve = mongoose.model('Preserve', preserveSchema);
 
 const User = mongoose.model("User", userSchema);
 
@@ -389,10 +380,6 @@ if (uploader) {
     uploaderPic = userDoc.profilePic;
   }
 }
-
-const totalPreserves = await Preserve.countDocuments({ photoUrl: `https://storage.googleapis.com/${bucketName}/${file.name}` });
-
-const userPreserved = req.session.user ? await Preserve.exists({ photoUrl: `https://storage.googleapis.com/${bucketName}/${file.name}`, username: req.session.user.username }) : false;
 
 // ✅ Return updated photo info
 return {
