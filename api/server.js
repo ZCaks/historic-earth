@@ -69,20 +69,22 @@ const bucket = storage.bucket(bucketName);
 
 // ✅ Secure Google Maps API loader
 app.get("/api/maps-loader", (req, res) => {
-  const key = process.env.GOOGLE_MAPS_API_KEY;
-  res.set("Content-Type", "application/javascript");
-  res.send(`
-    const script = document.createElement('script');
-    script.src = "https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap";
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
-  `);
-});
-
-// ✅ Fallback to `index.html` for SPA support
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../index.html"));
+  try {
+    const key = process.env.GOOGLE_MAPS_API_KEY;
+    if (!key) throw new Error("Google Maps API key is missing");
+    
+    res.set("Content-Type", "application/javascript");
+    res.send(`
+      const script = document.createElement('script');
+      script.src = "https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap";
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    `);
+  } catch (error) {
+    console.error("Maps loader error:", error);
+    res.status(500).send("console.error('Failed to load maps');");
+  }
 });
 
 
