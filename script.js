@@ -299,8 +299,8 @@ const preserveBtn = document.createElement("button");
 preserveBtn.className = "preserve-button";
 preserveBtn.innerHTML = `
   <img class="preserve-icon" 
-       src="${photoData.userPreserved ? 'assets/preserve_B.svg' : 'assets/preserve_W.svg'}">
-  <span class="preserve-count">${photoData.totalPreserves || 0}</span>
+src="${photoData.userPreserved ? '/assets/preserve_B.svg' : '/assets/preserve_W.svg'}"
+<span class="preserve-count">${photoData.totalPreserves || 0}</span>
 `;
 
 preserveBtn.addEventListener("click", async () => {
@@ -1262,18 +1262,24 @@ async function togglePreserve(photoUrl, buttonElement) {
     if (!response.ok) throw new Error("API request failed");
     
     const result = await response.json();
-    const icon = buttonElement.querySelector('img');
-    const countSpan = buttonElement.querySelector('.preserve-count');
     
-    // Update icon and count
+    // SAFE ELEMENT SELECTION
+    const icon = buttonElement?.querySelector('.preserve-icon');
+    const countSpan = buttonElement?.querySelector('.preserve-count');
+    
+    if (!icon || !countSpan) {
+      throw new Error("Could not find button elements");
+    }
+    
+    // Update UI
     icon.src = result.userPreserved 
-      ? 'assets/preserve_B.svg' 
-      : 'assets/preserve_W.svg';
+      ? '/assets/preserve_B.svg' 
+      : '/assets/preserve_W.svg';
     countSpan.textContent = result.totalPreserves;
     
   } catch (error) {
     console.error("Preserve error:", error);
-    alert("Action failed. Please try again.");
+    // alert("Action failed. Please refresh and try again.");
   }
 }
 
